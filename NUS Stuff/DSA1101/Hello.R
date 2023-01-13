@@ -6,4 +6,3 @@ foo <- function() {
 }
 
 foo()
-
