@@ -1,0 +1,47 @@
+Purity of a node: probability of the corresponding class
+e.g: no 1789/2000
+P(Y=0)=1789/2000, P(Y=1)=1-P(Y=0)
+
+The entropy methods select the most informative
+attribute based on:
+i)Entropy, the IMpurity of an attribute
+ii)Information gain, the purity of an attribute
+
+Y={y1, y2, ..., yk}
+
+entropy of Y
+= -sigma(j=1->k) [P(Y=y(j))log2.P(Y=y(j))]
+binary Y
+-P(Y=1)log2.P(Y=1) - P(Y=0)log2P(Y=0)
+
+Entropy: unpredictability, uncertainty
+lower entropy, more uncertainty, more unknown
+entropy<=1
+
+Base entropy:
+Entropy at the root node (first note)
+e.g P(Y=0), P(Y=1) given
+base entropy -> entropy for Y={0,1}
+
+we choose X so that entropy can be reduced the most
+for binary tree:
+Conditional entropy:
+split points (x1, x2) for feature X:
+
+D(Y|X)
+=sigma(i=1, 2) P(X=x(i)).D(P(X=x(i))
+= - sigma(i=1, 2) {P(X=x(i).
+sigma j=1->k, P(Y=y(j)|X=x(i)log2(P(Y=y(j)|X=x(i))
+
+1) first we calculate P(X=x(i)) for values of i
+for every i, we calculate
+P(Y=1|X=x(i)) -> P(Y=0|X=x(i))
+[given the feature, what is the value that Y=1?]
+
+information gain = base entropy - conditional entropy
+Choose split points so that the information gain is highest
+
+Gini Index
+Y={y1, y2, ..., yk}
+Gini index of Y
+= sigma(j=1->k) of P(Y=y(j))[1-P(Y=y(j))]

@@ -1,0 +1,14 @@
+Description: These data were collected from the 25 top liberal arts colleges and the 25 top research
+universities. There are 50 cases on 8 variables.
+
+Number of cases: 50
+Variable Names:
+School: Contains the name of each school
+School_Type: Coded 'LibArts' for liberal arts and 'Univ' for university
+SAT: Median combined Math and Verbal SAT score of students
+Acceptance: % of applicants accepted
+DPerStudent: Money spent per student in dollars
+Top 10p: % of students in the top 10% of their h.s. graduating class
+PerPhD: % of faculty at the institution that have PhD degrees
+GradPer: % of students at institution who eventually graduate
+

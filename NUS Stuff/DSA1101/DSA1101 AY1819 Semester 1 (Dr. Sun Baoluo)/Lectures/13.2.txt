@@ -1,0 +1,36 @@
+10000
+
+1)
+a) spt({battery}) = 0.6 > 0.05, frequent itemset
+spt({sunscreen}) = 0.5 > 0.05, frequent itemset
+spt({sandals}) = 0.4 > 0.05, frequent itemset
+spt({bowls}) = 0.2 > 0.05, frequent itemset
+spt({battery, sunscreens}) = 0.15 > 0.05, frequent itemset
+spt({battery, sandals}) = 0.1 > 0.05, frequent itemset
+spt({battery, bowls}) = 0.025 < 0.05, not frequent
+spt({battery, sunscreen, sandals}) = 0.06 > 0.05, frequent itemset
+{sunscreen, sandals} should also be frequent.
+b) minimum spt = 0.05
+c)
+spt({battery, sunscreen})/spt({battery})
+= 0.15 / 0.6 = 0.25
+
+spt({battery, sunscreen, sandals})/spt({battery, sunscreen})
+= 0.06 / 0.15 = 0.4, more interesting rule.
+
+2)
+Confidence(B -> A) = sp(B and A) / sp(B)
+-> sp(A and B) = 0.9 * 0.6 = 0.54
+
+a) Lift(A-> B) =sp(A and B)/[sp(A)*sp(B)]
+= 0.54/(0.6 * 0.6) = 1.5
+
+b) Leverage(A->B)=sp(A and B)-[sp(A)*sp(B)]
+= 0.54 - 0.36 = 0.18
+
+c) Confidence(A->B) = sp(A and B)/sp(A) = 0.54/0.6 = 0.9
+d) Lift({AB}->C) 
+= sp({ABC})/[sp({AB})*sp(C)]
+= confidence(C->{AB})*sp(C)/[sp({AB})*sp(C)]
+= confidence(C->{AB})/sp({AB})
+= 0.5 / 0.54 = 50/54 ~ 0.93

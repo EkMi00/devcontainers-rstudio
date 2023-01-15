@@ -1,0 +1,6 @@
+
+1)
+ii) sigma e(i), sigma x(i)*e(i), sigma z(i)*e(i)
+
+
+2) 10101

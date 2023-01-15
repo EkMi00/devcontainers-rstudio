@@ -1,0 +1,38 @@
+Illustration of Apriori Algorithm
+1) {A, B, C, D}
+calculate support {A}, support {B}, support {C}, support {D}
+Identify frequent 1-itemsets (> minimum support threshold)
+
+2) left: {A, B, C, D}
+calculate support {AB}, {AC}, {AD}, {BC}, {BD}, {CD}
+Identify frequent 2-itemsets (> minimum support threshold)
+
+3) left: {A,C},{A,E},{D,E}
+calculate support of {A,C,E},{A,D,E},{A,C,D},{A,C,E}
+Identify frequent sets (> minimum support threshold)
+
+4) left {A,C,E}, {A,D,E}
+only {A,B,C,D}
+
+for two-itemsets
+Confidence: measure of certainty
+Confidence(X->Y)=Support(X and Y)/Support(X), larger is better, <=1
+Lift(X->Y)=Support(X and Y)/[Support(X)*Support(Y)], larger is better, >=1
+Leverage(X->Y)=Support(X and Y) - Support(X)*Support(Y), larger is better >=0
+
+Problem 11.1
+Threshold=0.23
+
+supp(D)=supp(A,D)/Confidence(D->A)=0.1 < 0.23, exclude D
+first iteration: A,B,C satisfies
+{A,B,C}
+
+supp(A,B)=0.2 < 0.23
+supp(B,C)= Lift(B->C)*Spt(B)*Spt(C)=0.25 > 0.23
+supp(A,C)= confidence(A->C)*supp(A)=0.2 < 0.23
+
+second iteration: {B,C} left.End.
+
+
+
+
