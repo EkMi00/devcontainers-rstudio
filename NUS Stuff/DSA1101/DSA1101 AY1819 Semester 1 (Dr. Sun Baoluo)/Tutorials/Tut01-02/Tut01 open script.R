@@ -1,4 +1,4 @@
-col=read.table("c:/Colleges.txt", header=T , sep ='\t')
+col <- read.table("/workspaces/devcontainers-rstudio/NUS Stuff/DSA1101/DSA1101 AY1819 Semester 1 (Dr. Sun Baoluo)/Tutorials/Tut01-02/Colleges.txt", header = T, sep = "\t")
 View(col)
 
 hist(col$SAT)
