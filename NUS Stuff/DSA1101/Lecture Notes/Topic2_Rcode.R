@@ -1,7 +1,7 @@
 ####  TOPIC 2: BASIC PROBABILITY & STATISTICS
 
 # setwd("C:/Data")
-setwd("/workspaces/devcontainers-rstudio/NUS Stuff/DSA1101/Lecture Notes")
+setwd("/workspaces/devcontainers-rstudio/NUS Stuff/DSA1101/Data")
 sales <- read.csv("yearly_sales.csv")
 
 head(sales)
