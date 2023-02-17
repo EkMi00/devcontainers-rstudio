@@ -1,5 +1,5 @@
 # 1)
-numOfMonths <- function(salary, start, price, rate) {
+num_of_years <- function(salary, start, price, rate) {
     # # 1i)
     downPay <- 0.25 * price
     portion_saved <- 0.4
@@ -18,8 +18,8 @@ numOfMonths <- function(salary, start, price, rate) {
 }
 
 price <- 1200000
-salary <- 10000
-print(numOfMonths(7000, salary, price, 0))
-print(numOfMonths(10000, salary, price, 0))
-print(numOfMonths(7000, salary, price, 0.02))
-print(numOfMonths(10000, salary, price, 0.01))
+start <- 10000
+print(num_of_years(7000, start, price, 0))
+print(num_of_years(10000, start, price, 0))
+print(num_of_years(7000, start, price, 0.02))
+print(num_of_years(10000, start, price, 0.01))

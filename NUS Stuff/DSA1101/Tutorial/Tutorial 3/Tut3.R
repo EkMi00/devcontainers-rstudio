@@ -1,5 +1,5 @@
 library("ggplot2")
-setwd("/mnt/c/Users/Keck/Documents/GitHub/devcontainers-rstudio-main/NUS Stuff/DSA1101/Data");
+setwd("/mnt/c/Users/Keck/Documents/GitHub/myrepo/Rstudio Projects/NUS Stuff/DSA1101/Data");
 
 colleges <- read.csv("Colleges.txt", sep = "\t" , header = T ,
                      na.strings ="", 
@@ -11,13 +11,12 @@ my_graph <- ggplot(colleges, aes(x = colleges$SAT, y = colleges$Acceptance)) +
     geom_smooth(method=lm , color="red", se=FALSE) +
     stat_smooth()
 
-# print(my_graph)
+print(my_graph)
 
 # M1 <- lm(colleges$Acceptance ~ colleges$SAT, data = colleges) # y = -329.9x + 42732
 # print(M1) 
 
 F3 <- function(salary, start, price, rate, years) {
-    
     mini <- list()
     # print(mini)
     for (portion_saved in 40: 100) {

@@ -1,5 +1,6 @@
 # Response Variable: FEV
-setwd("/workspaces/devcontainers-rstudio/NUS Stuff/DSA1101/Data")
+# setwd("/workspaces/devcontainers-rstudio/NUS Stuff/DSA1101/Data")
+setwd("/mnt/c/Users/Keck/Documents/GitHub/myrepo/Rstudio Projects/NUS Stuff/DSA1101/Data");
 fev <- read.csv("FEV.csv")
 fev_freq <- fev$FEV
 # hist(fev_freq,
