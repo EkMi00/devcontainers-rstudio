@@ -1,4 +1,4 @@
-School	School_Type	SAT	Acceptance DPerStudent	Top 10p	PerPhD	GradPer
+School	School_Type	SAT	Acceptance	DPerStudent	Top 10p	PerPhD	GradPer
 Amherst	Lib Arts	1315	22	26636	85	81	93
 Swarthmore	Lib Arts	1310	24	27487	78	93	88
 Williams	Lib Arts	1336	28	23772	86	90	93
