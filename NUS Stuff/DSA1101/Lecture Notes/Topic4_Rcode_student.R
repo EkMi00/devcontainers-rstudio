@@ -1,6 +1,9 @@
 
 ################# STOCK MARKET EXAMPLE
-setwd("/mnt/c/Users/Keck/Documents/GitHub/myrepo/Rstudio Projects/NUS Stuff/DSA1101/Data");
+# setwd("C:/Data")
+# setwd("/mnt/c/Users/Keck/Documents/GitHub/devcontainers-rstudio/NUS Stuff/DSA1101/Data")
+# setwd("C:\\Users\\five8\\Documents\\GitHub\\devcontainers-rstudio\\NUS Stuff\\DSA1101\\Data")
+setwd("C:\\Users\\Keck\\Documents\\GitHub\\devcontainers-rstudio\\NUS Stuff\\DSA1101\\Data")
 market = read.csv("Smarket.csv")
 dim(market)
 

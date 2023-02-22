@@ -1,8 +1,11 @@
 
 ########## TOPIC 3 - LINEAR REGRESSION ###########
+# setwd("C:/Data")
+# setwd("/mnt/c/Users/Keck/Documents/GitHub/devcontainers-rstudio/NUS Stuff/DSA1101/Data")
+# setwd("C:\\Users\\five8\\Documents\\GitHub\\devcontainers-rstudio\\NUS Stuff\\DSA1101\\Data")
+setwd("C:\\Users\\Keck\\Documents\\GitHub\\devcontainers-rstudio\\NUS Stuff\\DSA1101\\Data")
 
-
-resale = read.csv("C:/Data/hdbresale_reg.csv")
+resale = read.csv("hdbresale_reg.csv")
 head(resale[ ,2:7]) # 1st column indicates ID of flats
 
 head(resale[ ,8:11])
@@ -57,8 +60,8 @@ lm(y~x1+x2)
 library(rgl)
 M.2 = lm(y~x1+x2)
 # 3D plot to illustrate the data points
-plot3d (x1 , x2 , y, xlab = "x1", ylab = "x2", zlab = "y",
-       type = "s", size = 1.5 , col = "red")
+# plot3d (x1 , x2 , y, xlab = "x1", ylab = "x2", zlab = "y",
+#        type = "s", size = 1.5 , col = "red")
 
 coefs = coef(M.2)
 a <- coefs[2] # coef of x1
@@ -70,7 +73,7 @@ planes3d (a, b, c, d, alpha = 0.5) # the plane is added to the plot3d above.
 
 ########### MLR for HDB RESALE FLATS
 
-resale = read.csv("C:/Data/hdbresale_reg.csv")
+resale = read.csv("hdbresale_reg.csv")
 years_left = 2022 - resale$lease_commence_date
 price = resale$resale_price
 area = resale$floor_area_sqm
