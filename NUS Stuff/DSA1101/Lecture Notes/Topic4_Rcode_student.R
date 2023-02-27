@@ -26,17 +26,19 @@ test.y = test.data[,c("Direction")]
 
 
 set.seed(1)
-knn.pred = knn(train.x,test.x,train.y,k=1)  # KNN with k = 1
-print(knn.pred)
+knn.pred = knn(train.x,test.x,train.y,k=1)  # KNN with k = 1, k = 2 is more accurate
+# print(knn.pred)
 confusion.matrix=table(knn.pred, test.y)
-print(confusion.matrix)
-sum(diag(confusion.matrix))/sum(confusion.matrix) # 0.515873
+# print(confusion.matrix)
+accuracy <- sum(diag(confusion.matrix))/sum(confusion.matrix) # 0.515873
 # (55+75)/252 ~ 51.59% of the observations are correctly predicted
+# print(accuracy)
 
 knn.pred = knn(train.x,test.x,train.y,k=10)  # KNN with k = 10
 confusion.matrix=table(knn.pred, test.y)
-confusion.matrix
-sum(diag(confusion.matrix))/sum(confusion.matrix) # 0.5357143
+# print(confusion.matrix)
+accuracy <- sum(diag(confusion.matrix))/sum(confusion.matrix) # Accuracy = 0.5357143
+# print(accuracy)
 
 
 
@@ -46,7 +48,7 @@ sum(diag(confusion.matrix))/sum(confusion.matrix) # 0.5357143
 #  A small example on dividing whole data set into n folds  #################
 n_folds=3
 Number_of_datapoints=12 # sample size
-index=rep(1:n_folds,length.out = Number_of_datapoints)
+index=rep(1:n_folds,length.out = Number_of_datapoints) # length.out?
 s = sample(index); s
 table(s) 
 # dataset of 12 points is devided into 3 folds randomly, each fold has 4 points.
@@ -77,7 +79,8 @@ for (j in 1:n_folds) {
 	pred <- knn(train=X[ -test_j, ], test=X[test_j, ], cl=Y[-test_j ], k=1) # KNN with k = 1, 5, 10, etc
 	err[j]=mean(Y[test_j] != pred)
 	acc[j]=mean(Y[test_j] == pred) 
-      # this acc[j] = sum(diag(confusion.matrix))/sum(confusion.matrix), where confusion.matrix=table(Y[test_j],pred)
+	# this acc[j] = sum(diag(confusion.matrix))/sum(confusion.matrix),
+	# where confusion.matrix=table(Y[test_j],pred)
 
 }
 err

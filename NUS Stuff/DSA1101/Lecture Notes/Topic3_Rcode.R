@@ -30,11 +30,16 @@ price = resale$resale_price
 area = resale$floor_area_sqm
 lm(price~area)$coef # coefficients of the model
 
+summary(M)$coefficients["(Intercept)", "Estimate"]
+summary(M)$coefficients["x", "Estimate"]
+summary(M)$coefficients["(Intercept)", "Std. Error"]
+summary(M)$coefficients["x", "Std. Error"]
+
 ########## RSE
 #Calculating RSE:
 sqrt(sum((y - M$fitted)^2)/(length(y) - 2))
 
-summary(M) # Take the Residual standard error
+summary(M)$sigma # Take the Residual standard error
 
 ########## R^2
 
@@ -47,7 +52,7 @@ R2 = 1 - RSS/TSS; R2
 
 
 summary(M)$r.squared
-
+summary(M)$adj.r.squared
 ########## MULTIPLE LINEAR MODEL
 
 set.seed(250)
@@ -68,7 +73,7 @@ a <- coefs[2] # coef of x1
 b <- coefs[3] # coef of x2
 c <- -1       # coef of y in the equation: ax1 + bx2 -y + d = 0.
 d <- coefs[1] # intercept
-planes3d (a, b, c, d, alpha = 0.5) # the plane is added to the plot3d above.
+# planes3d (a, b, c, d, alpha = 0.5) # the plane is added to the plot3d above.
 
 
 ########### MLR for HDB RESALE FLATS

@@ -1,8 +1,10 @@
 #R code for Tutorial 2 Solution
 
 #### FEV dataset
-
-fev = read.csv("C:/Data/FEV.csv")
+# setwd("/mnt/c/Users/Keck/Documents/GitHub/devcontainers-rstudio/NUS Stuff/DSA1101/Data")
+# setwd("C:\\Users\\five8\\Documents\\GitHub\\devcontainers-rstudio\\NUS Stuff\\DSA1101\\Data")
+setwd("C:\\Users\\Keck\\Documents\\GitHub\\devcontainers-rstudio\\NUS Stuff\\DSA1101\\Data")
+fev = read.csv("FEV.csv")
 names(fev)
 attach(fev)
 

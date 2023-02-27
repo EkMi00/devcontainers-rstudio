@@ -1,5 +1,6 @@
 ####  TOPIC 2: BASIC PROBABILITY & STATISTICS
-
+library(dplyr)
+library(ggplot2)
 # setwd("C:/Data")
 # setwd("/mnt/c/Users/Keck/Documents/GitHub/devcontainers-rstudio/NUS Stuff/DSA1101/Data")
 # setwd("C:\\Users\\five8\\Documents\\GitHub\\devcontainers-rstudio\\NUS Stuff\\DSA1101\\Data")
@@ -26,7 +27,14 @@ total[order(total)[(n - 4):n]] # The 5 largest observations
 # hist(total,
 #      freq = TRUE, main = paste("Histogram of Total Sales"),
 #      xlab = "total", ylab = "Frequency", axes = TRUE, col = "blue"
-# )
+#      )    
+
+hist_plot <- ggplot(sales, aes(x = sales_total)) +
+  geom_histogram(bins = 10)  # bin = 30 is default +
+  labs(x = "Total Sales", y = "Frequency", title = "Histogram of Total Sales")
+# +  facet_wrap(~ gender)
+
+# print(hist_plot)
 
 # HISTOGRAM WITH DENSITY LINE
 # hist(total,
@@ -42,13 +50,22 @@ total[order(total)[(n - 4):n]] # The 5 largest observations
 #      xlab = "total sales", ylab = "Probability", axes = TRUE,
 #      col = "grey", ylim = c(0, 0.002)
 # )
-x <- seq(0, max(total), length.out = n)
-y <- dnorm(x, mean(total), sd(total))
+# x <- seq(0, max(total), length.out = n) # x-axis
+# y <- dnorm(x, mean(total), sd(total)) # normal distribution
 # lines(x, y, col = "red") # this is the normal density curve
 
 
 # BOX PLOTS
 # boxplot(total, xlab = "Total Sales")
+
+boxplot <- ggplot(sales, aes(x = "", y = sales_total)) + 
+     geom_boxplot(outlier.shape=NA) +
+     scale_y_continuous(limits = quantile(sales$sales_total))
+
+b_out <- boxplot(total, xlab = "Total Sales")$out
+index <- which(total %in% c(b_out))
+print(sales[c(index), ], )
+# print(boxplot)
 
 
 # QQ plot
@@ -72,9 +89,11 @@ cor(total, order) # 0.75
 
 
 # 3 VARIABLES = SCATTER PLOT ADDING LEGEND
-# order <- sales$num_of_orders
-# attach(sales)
+order <- sales$num_of_orders
+attach(sales)
+
 # plot(order, total, type = "n") # a scatter plot with no point added
+
 # points(order[gender == "M"], total[gender == "M"], pch = 2, col = "blue") # MALE
 # points(order[gender == "F"], total[gender == "F"], pch = 20, col = "red") # FEMALE
 # legend(1, 7500, legend = c("Female", "Male"), col = c("red", "blue"), pch = c(20, 2))
@@ -85,12 +104,25 @@ cor(total, order) # 0.75
 
 
 # BARPLOT FOR CATEGORICAL VARIABLE
-count <- table(gender)
+count <- data.frame(table(gender))
+gender_levels <- factor(sales$gender,
+     levels = c("F", "M"))
 count # frequency table
 # barplot(count)
+barplot <- ggplot(sales, aes(x = order, fill = gender)) + 
+  geom_bar(position = "dodge") + 
+  facet_wrap(~ gender)
+
+# print(barplot)
 
 # PIE CHART
-# pie(count)
+count2 <- table(gender_levels)
+# piechart <- ggplot(sales, aes(x = '' )) + 
+#   geom_bar(stat="identity", width=1) +
+#   coord_polar("y", start=0)
+# print(piechart)
+
+# pie(count2)
 
 
 # CATEGORIZING "ORDER"
