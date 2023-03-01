@@ -118,6 +118,7 @@ fpr <- cmatrix[,2]
 ##############################################
 caravan <- read.csv("Caravan.csv");
 # Based on cursary look, unlikely to purchase
+purchase_count <- table(factor(caravan$Purchase))
 
 attach(caravan)
 
@@ -148,8 +149,9 @@ knn_k <- function(k_value) {
 
 
 nf_x_valid <- function(n_folds, k_value) {
-    err=numeric(n_folds)
-    acc=numeric(n_folds)
+    acc <- numeric(n_folds)
+    err <- numeric(n_folds)
+    pre <- numeric(n_folds) # refers to positive rate
     folds_j <- sample(rep(1:n_folds, length.out = dim(caravan)[1]))
     X <- scale(caravan[, 2:86]) # explanatories
     Y <- caravan[87] # response
@@ -157,16 +159,18 @@ nf_x_valid <- function(n_folds, k_value) {
         test_j <- which(folds_j == j) # get the index of the points that will be in the test set
         pred <- knn(train=X[-test_j,], test=X[test_j,], cl=Y[-test_j,], k=k_value) # KNN with k = 1, 5, 10, etc
         # what is the tiebreaker for even k?
-        # do we sample then split or other way around?
+        # do we sample then split or other way around? Is it because of seed we dont need to care?
+        confusion.matrix <- table(pred, Y[test_j,])
         
-        err[j]=mean(Y[test_j,] != pred)
-        acc[j]=mean(Y[test_j,] == pred) 
-        # this acc[j] = sum(diag(confusion.matrix))/sum(confusion.matrix),
+        acc[j] <- mean(Y[test_j,] == pred) # sum(diag(confusion.matrix))/sum(confusion.matrix)
+        err[j] <- mean(Y[test_j,] != pred) # sum(rightDiag(confusion.matrix/sum(confusuion.matrix)))
+        pre[j] <- confusion.matrix[1,1] / sum(confusion.matrix[,1])
         # where confusion.matrix=table(Y[test_j],pred)
     }
-    error=mean(err);
-    accur=mean(acc);
-    return(list("error" = error, "accuracy" = accur))
+    error <- mean(err);
+    accur <- mean(acc);
+    preci <- mean(pre); 
+    return(list("accuracy" = accur, "error" = error, "precision" = preci))
 }
 
 # print(nf_x_valid(20, 1))
