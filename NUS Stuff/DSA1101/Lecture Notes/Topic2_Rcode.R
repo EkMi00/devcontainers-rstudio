@@ -92,7 +92,7 @@ cor(total, order) # 0.75
 order <- sales$num_of_orders
 attach(sales)
 
-# plot(order, total, type = "n") # a scatter plot with no point added
+plot(order, total, type = "n") # a scatter plot with no point added
 
 # points(order[gender == "M"], total[gender == "M"], pch = 2, col = "blue") # MALE
 # points(order[gender == "F"], total[gender == "F"], pch = 20, col = "red") # FEMALE

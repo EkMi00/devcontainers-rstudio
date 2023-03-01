@@ -96,7 +96,7 @@ table(bankdata$subscribed[x2])
 library("rpart") # load libraries
 library("rpart.plot")
 
-play_decision <- read.table("C:/Data/DTdata.csv",header=TRUE,sep=",")
+play_decision <- read.table("DTdata.csv",header=TRUE,sep=",")
 head(play_decision)
 
 fit <- rpart(Play ~ Outlook + Temperature + Humidity + Wind,

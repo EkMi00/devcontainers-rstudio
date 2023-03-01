@@ -1,9 +1,9 @@
 
 ########### TUTORIAL 3 ##########
 
-
+setwd("C:\\Users\\Keck\\Documents\\GitHub\\devcontainers-rstudio\\NUS Stuff\\DSA1101\\Data")
 ##########   Q1
-dat= read.table("/mnt/c/Users/Keck/Documents/GitHub/Devcontainers-Rstudio/NUS Stuff/DSA1101/Data/Colleges.txt",header =TRUE,sep= "\t")
+dat= read.table("Colleges.txt",header =TRUE,sep= "\t")
 names(dat)
 head(dat)
 
@@ -25,7 +25,7 @@ m2 <- lm(Acceptance ~ SAT +Top.10p, data = dat )
 
 ##########   Q2
 
-house = read.csv("/mnt/c/Users/Keck/Documents/GitHub/Devcontainers-Rstudio/NUS Stuff/DSA1101/Data/house_selling_prices_FL.csv")
+house = read.csv("house_selling_prices_FL.csv")
 # names(house) # names of columns
 # dim(house) # 100 observations and 9 columns
 house$NW = as.factor(house$NW) # to declare that NW is categorical
