@@ -20,8 +20,8 @@ formula <- (sprintf("Formula : weight = %f + (%f)(width) + (%f)(spine)",
 # Rmb to attach as the names need to match
 # print(predict(M1, newdata=data.frame(width = 27, spine = 3))) # y_hat = 2.584627
 detach(crab)
-##############################################
 
+##############################################
 euc_dist <- function(x, y) sqrt(sum((x - y)^2))
 training <- rbind(c(0,3,0),
     c(2,0,0),
