@@ -1,7 +1,7 @@
 
-# setwd("/mnt/c/Users/Keck/Documents/GitHub/devcontainers-rstudio/NUS Stuff/DSA1101/Data")
+setwd("/workspaces/devcontainers-rstudio/NUS Stuff/DSA1101/Data")
 # setwd("C:\\Users\\five8\\Documents\\GitHub\\devcontainers-rstudio\\NUS Stuff\\DSA1101\\Data")
-setwd("C:\\Users\\Keck\\Documents\\GitHub\\devcontainers-rstudio\\NUS Stuff\\DSA1101\\Data")
+# setwd("C:\\Users\\Keck\\Documents\\GitHub\\devcontainers-rstudio\\NUS Stuff\\DSA1101\\Data")
 
 bankdata = read.csv("bank-sample.csv", header=TRUE)
 head(bankdata)
@@ -37,7 +37,7 @@ housing + loan + contact+poutcome,
 method="class",
 data=bankdata,
 control=rpart.control(minsplit=1),
-parms=list(split='information'))
+parms=list(split='gini'))
 
 # there is another argument in rpart.control, that is cp.
 #smaller values of cp correspond to decision trees of larger sizes, 
