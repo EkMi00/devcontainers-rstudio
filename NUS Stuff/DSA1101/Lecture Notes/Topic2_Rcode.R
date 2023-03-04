@@ -62,9 +62,9 @@ boxplot <- ggplot(sales, aes(x = "", y = sales_total)) +
      geom_boxplot(outlier.shape=NA) +
      scale_y_continuous(limits = quantile(sales$sales_total))
 
-b_out <- boxplot(total, xlab = "Total Sales")$out
+# b_out <- boxplot(total, xlab = "Total Sales")$out
 index <- which(total %in% c(b_out))
-print(sales[c(index), ], )
+# print(sales[c(index), ], )
 # print(boxplot)
 
 
@@ -92,11 +92,13 @@ cor(total, order) # 0.75
 order <- sales$num_of_orders
 attach(sales)
 
-plot(order, total, type = "n") # a scatter plot with no point added
-
+# plot(order, total, type = "n") # a scatter plot with no point added
 # points(order[gender == "M"], total[gender == "M"], pch = 2, col = "blue") # MALE
 # points(order[gender == "F"], total[gender == "F"], pch = 20, col = "red") # FEMALE
 # legend(1, 7500, legend = c("Female", "Male"), col = c("red", "blue"), pch = c(20, 2))
+
+# ~ refers to formula or relation
+# use, for variable
 
 # (x = 1, y =7500) tells R the place where you want to put the lengend box in the plot
 # do note on the size of the points since the points added latter will overlay on the points added earlier

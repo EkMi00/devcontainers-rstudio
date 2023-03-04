@@ -1,13 +1,15 @@
 setwd("C:\\Users\\Keck\\Documents\\GitHub\\devcontainers-rstudio\\NUS Stuff\\DSA1101\\Data")
 caravan = read.csv("Caravan.csv")
 crab = read.csv("crab.csv")
+crab$spine = as.factor(crab$spine)
 attach(crab)
 # plot(crab$width, crab$weight)
-# plot(crab$width, crab$weight, type = "n")
-# points(crab$weight[crab$spine==1] ~ crab$width[crab$spine==1], col = "red", pch = 20)
-# points(crab$weight[crab$spine==2] ~ crab$width[crab$spine==2], col = "darkblue", pch = 20)
-# points(crab$weight[crab$spine==3] ~ crab$width[crab$spine==3], col = "darkgreen", pch = 20)
-# legend(1.2, 5, legend = c(1, 2, 3), col = c("red","darkblue", "darkgreen"), pch=c(20,20))
+# plot(width, weight, type = "n")
+# points(width[which(spine==1)], weight[which(spine==1)], col = "black", pch = 20)
+# points(width[which(spine==2)],  weight[which(spine==2)], col = "red", pch = 6)
+# points(width[which(spine==3)],  weight[which(spine==3)], col = "blue", pch = 10)
+# legend(22, 5, legend = c("Spine 1", "Spine 2", "Spine 3"), 
+# col = c("black","red", "blue"), pch=c(20,20))
 
 M1 <- lm(weight ~ width + spine, data=crab)
 corr <- cor(crab$weight, crab$width)
@@ -76,24 +78,24 @@ classify <- function(data, dell) {
         row <- data[i,]
         if (row[2] > dell & row[1] != 0) {
             tp <- tp + 1
-        } else if (row[2] < dell & row[1] != 0) {
-            fn <- fn + 1
+        } else if (row[2] <= dell & row[1] == 0) {
+            tn <- tn + 1
         } else if (row[2] > dell & row[1] == 0) {
             fp <- fp + 1
-        } else {
-            tn <- tn + 1
+        } else  if (row[2] <= dell & row[1] != 0) {
+            fn <- fn + 1
         }
 
     }
-    return((matrix(c(tp, fn, fp, tn), nrow = 2)))
+    return((rbind(c(tp, fn),c(fp, tn))))
 }
 
 
 prates <- function(cmatrix) {
     tp <- cmatrix[1,1]
     fp <- cmatrix[2,1]
-    tn <- cmatrix[1,2]
-    fn <- cmatrix[2,2]
+    tn <- cmatrix[2,2]
+    fn <- cmatrix[1,2]
     tpr <- tp / (tp + fn)
     fpr <- fp / (fp + tn)
     return(c(tpr, fpr))
@@ -109,7 +111,7 @@ cmatrix <- rbind(prates(classify(training2, 0.3)),
 
 tpr <- cmatrix[,1]
 fpr <- cmatrix[,2]
-
+rates <- cbind(fpr, tpr)
 # plot(fpr, tpr) # negative association
 
 
@@ -123,28 +125,27 @@ purchase_count <- table(factor(caravan$Purchase))
 attach(caravan)
 
 library(class)
-X <- scale(caravan[, 2:86]) # explanatories
+X <- scale(caravan[,-1][, -86]) # explanatories
 Y <- caravan[87] # response
 
-set.seed(1)
-indices <- sample(nrow(X), size = 1000)
-train <- caravan[-indices,]
-test <- caravan[indices,]
-train.x <- train[, 2:86]
-train.y <- train[, 87]
-test.x <- test[, 2:86]
-test.y <- test[, 87]
 
+indices <- sample(nrow(X), size = 2000)
+train.x <- X[-indices,]
+test.x <- X[indices,]
+train.y <- Y[-indices,]
+test.y <- Y[indices,]
 
+set.seed(5)
 knn_k <- function(k_value) {
     knn.pred <- knn(train.x, test.x, train.y, k=k_value)
     confusion.matrix <- table(knn.pred, test.y) 
     accuracy <- sum(diag(confusion.matrix))/sum(confusion.matrix)
-    return(list(confusion.matrix, accuracy))
+    precision <- confusion.matrix[2,2]/sum(confusion.matrix[2,])
+    return(list(confusion.matrix, precision))
 }
 # print(knn_k(1))
 # print(knn_k(3))
-# print(knn_k(5))
+print(knn_k(5))
 # print(knn_k(10))
 
 
@@ -160,17 +161,17 @@ nf_x_valid <- function(n_folds, k_value) {
         pred <- knn(train=X[-test_j,], test=X[test_j,], cl=Y[-test_j,], k=k_value) # KNN with k = 1, 5, 10, etc
         # what is the tiebreaker for even k?
         # do we sample then split or other way around? Is it because of seed we dont need to care?
-        confusion.matrix <- table(pred, Y[test_j,])
+        confusion.matrix <- table(Y[test_j,], pred)
         
         acc[j] <- mean(Y[test_j,] == pred) # sum(diag(confusion.matrix))/sum(confusion.matrix)
         err[j] <- mean(Y[test_j,] != pred) # sum(rightDiag(confusion.matrix/sum(confusuion.matrix)))
-        pre[j] <- confusion.matrix[1,1] / sum(confusion.matrix[,1])
+        pre[j] <- confusion.matrix[2,2] / sum(confusion.matrix[,2])
         # where confusion.matrix=table(Y[test_j],pred)
     }
     error <- mean(err);
     accur <- mean(acc);
     preci <- mean(pre); 
-    return(list("accuracy" = accur, "error" = error, "precision" = preci))
+    return(list(confusion.matrix, "accuracy" = accur, "error" = error, "precision" = preci))
 }
 
 # print(nf_x_valid(20, 1))
@@ -194,7 +195,7 @@ nf_x_valid <- function(n_folds, k_value) {
 # # $accuracy
 # # [1] 0.93387
 
-print(nf_x_valid(20, 10))
+# print(nf_x_valid(20, 10))
 # $error
 # [1] 0.06046168
 

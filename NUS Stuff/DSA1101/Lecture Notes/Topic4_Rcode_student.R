@@ -35,8 +35,9 @@ accuracy <- sum(diag(confusion.matrix))/sum(confusion.matrix) # 0.515873
 # print(accuracy)
 
 knn.pred = knn(train.x,test.x,train.y,k=10)  # KNN with k = 10
-confusion.matrix=table(knn.pred, test.y)
-# print(confusion.matrix)
+# confusion.matrix=table(knn.pred, test.y)
+confusion.matrix=table(test.y, knn.pred)
+print(confusion.matrix)
 accuracy <- sum(diag(confusion.matrix))/sum(confusion.matrix) # Accuracy = 0.5357143
 # print(accuracy)
 
