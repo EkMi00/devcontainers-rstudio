@@ -1,7 +1,11 @@
 
+setwd("/workspaces/devcontainers-rstudio/NUS Stuff/DSA1101/Data")
+# setwd("C:\\Users\\five8\\Documents\\GitHub\\devcontainers-rstudio\\NUS Stuff\\DSA1101\\Data")
+# setwd("C:\\Users\\Keck\\Documents\\GitHub\\devcontainers-rstudio\\NUS Stuff\\DSA1101\\Data")
+
 #############  EXAMPLE 1: CLASSIFYING FRUITS
 
-fruit.dat= read.csv("C:/Data/fruit.csv")
+fruit.dat= read.csv("fruit.csv")
 #Long: 1 = Yes, 0 = No
 #Sweet: 1 = Yes, 0 = No
 #Yellow: 1 = Yes, 0 = No

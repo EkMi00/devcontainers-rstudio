@@ -1,4 +1,5 @@
-setwd("C:\\Users\\Keck\\Documents\\GitHub\\devcontainers-rstudio\\NUS Stuff\\DSA1101\\Data")
+# setwd("C:\\Users\\Keck\\Documents\\GitHub\\devcontainers-rstudio\\NUS Stuff\\DSA1101\\Data")
+setwd("/workspaces/devcontainers-rstudio/NUS Stuff/DSA1101/Data")
 caravan = read.csv("Caravan.csv")
 crab = read.csv("crab.csv")
 crab$spine = as.factor(crab$spine)
