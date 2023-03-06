@@ -2,6 +2,23 @@
 
 ##############  TOPIC 1 - INTRODUCTION TO R
 
+
+# Operators:
+1 + 2
+2 - 3
+4 * 5
+6 / 3
+2 ** 3
+5 %% 2 # Modulus
+101 %/% 10 # Integer/Floor Division
+
+TRUE & TRUE
+1 | 0
+1 && FALSE
+
+# String concatenation
+paste("a", "b", sep="")
+
 # creating a vector of numbers:
 number <- c(2, 4, 6, 8, 10)
 # number
@@ -28,10 +45,10 @@ number.2 <- numeric(3)
 
 # rep(a,b): replicate the item a by b times where a could be a number or a vectora
 number.3 <- rep(2, 3)
-number.3
+# number.3
 
 number.3 <- rep(c(1, 2), 3)
-number.3
+# number.3
 
 # rep(string, 2)
 
@@ -56,6 +73,16 @@ m <- matrix(v, nrow = 2, ncol = 3)
 # to fill the matrix by rows:
 m <- matrix(v, nrow = 2, ncol = 3, byrow = T)
 # m
+
+# invert matrix:
+solve(m)
+
+# determinant of matrix:
+det(m)
+
+# matrix multiplication
+m %*% m
+
 
 ### FUNCTION rbind()
 a <- c(1, 2, 3, 4)
@@ -91,6 +118,11 @@ setwd("C:\\Users\\Keck\\Documents\\GitHub\\devcontainers-rstudio\\NUS Stuff\\DSA
 # setwd("/workspaces/devcontainers-rstudio/NUS Stuff/DSA1101/Data")
 # setwd("C:\\Users\\five8\\Documents\\GitHub\\devcontainers-rstudio\\NUS Stuff\\DSA1101\\Data")
 
+a <- data.frame(matrix(1:9, nrow=3, ncol=3))
+names <- c("col1", "col2", "col3")
+colnames(a) <- names
+
+
 data1<-read.csv("crab.txt", sep = "", header = FALSE)
 # data1[1:8, ] # first 8 rows
 
@@ -113,7 +145,6 @@ data3 <- read.csv("ex_1_comma.txt", sep = ",", header = FALSE)
 
 data3 <- read.table("ex_1_name.txt", header = TRUE)
 # data3
-
 
 # attach(data3)
 # CA1

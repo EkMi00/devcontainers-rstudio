@@ -9,12 +9,12 @@ data$spine = as.factor(data$spine)
 table(data$spine)
 attach(data)
 
-# plot(width,weight, type = "n")
-# points(width[which(spine==1)],weight[which(spine==1)],pch = 20, col = "black")
-# points(width[which(spine==2)],weight[which(spine==2)],pch = 6, col = "red")
-# points(width[which(spine==3)],weight[which(spine==3)],pch = 10, col= "blue")
-# legend(22, 5, legend = c("Spine = 1", "Spine = 2", "Spine = 3"), 
-# col = c("black", "red", "blue"), pch = c(20, 6, 10))
+plot(width,weight, type = "n")
+points(width[which(spine==1)],weight[which(spine==1)],pch = 20, col = "black")
+points(width[which(spine==2)],weight[which(spine==2)],pch = 6, col = "red")
+points(width[which(spine==3)],weight[which(spine==3)],pch = 10, col= "blue")
+legend(22, 5, legend = c("Spine = 1", "Spine = 2", "Spine = 3"),
+col = c("black", "red", "blue"), pch = c(20, 6, 10))
 
 
 M = lm(weight ~ width + spine, data = data)

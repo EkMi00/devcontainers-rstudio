@@ -16,7 +16,7 @@ names(dat)
 head(dat)
 
 # Compare outputs
-print(simple(dat$SAT, dat$Acceptance ))
+print(simple(dat$SAT, dat$Acceptance))
 print(lm(dat$Acceptance ~ dat$SAT , data =dat ))
 
 
