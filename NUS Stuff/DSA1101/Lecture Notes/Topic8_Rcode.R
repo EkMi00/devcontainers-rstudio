@@ -1,7 +1,10 @@
-
 ###########  HDB FLATS GROUPING
+# setwd("/workspaces/devcontainers-rstudio/NUS Stuff/DSA1101/Data")
+# setwd("C:\\Users\\five8\\Documents\\GitHub\\devcontainers-rstudio\\NUS Stuff\\DSA1101\\Data")
+setwd("C:\\Users\\Keck\\Documents\\GitHub\\devcontainers-rstudio\\NUS Stuff\\DSA1101\\Data")
 
-hdb=read.csv("C:/Data/hdbresale_cluster.csv")
+# hdb=read.csv("C:/Data/hdbresale_cluster.csv")
+hdb=read.csv("hdbresale_cluster.csv")
 head(hdb)
 dim(hdb)
 
@@ -41,7 +44,7 @@ for (k in 1:K) {
    wss[k] <- sum(kmeans(hdb[,c("floor_area_sqm","amenities")],centers=k)$withinss )
 }
 
-plot(1:K, wss, col = "red", type="b", xlab="Number of Clusters",  ylab="Within Sum of Squares")
+# plot(1:K, wss, col = "red", type="b", xlab="Number of Clusters",  ylab="Within Sum of Squares")
 
 
 
@@ -53,19 +56,20 @@ plot(1:K, wss, col = "red", type="b", xlab="Number of Clusters",  ylab="Within S
 ################## GRADE GROUPING
 
 set.seed(1)
-grade = read.csv("C:/Data/grades_km_input.csv")
+# grade = read.csv("C:/Data/grades_km_input.csv")
+grade = read.csv("grades_km_input.csv")
 head(grade)
 
 attach(grade)
 
 # VISUALIZE DATA SET BY FEATURES:
-plot(grade[,2:4])
+# plot(grade[,2:4])
 # PROPOSE: MIGHT BE 3 OR 4 GROUPS
 
 
-kout <- kmeans(grade[,c("English","Math","Science")],centers=3)
+# kout <- kmeans(grade[,c("English","Math","Science")],centers=3)
 
-kout$withinss
+# kout$withinss
 
 # PLOT WSS vs K TO PICK OPTIMAL K:
 
@@ -77,7 +81,7 @@ for (k in 1:K) {
 }
 
 
-plot(1:K, wss, col = "blue", type="b", xlab="Number of Clusters",  ylab="Within Sum of Squares")
+# plot(1:K, wss, col = "blue", type="b", xlab="Number of Clusters",  ylab="Within Sum of Squares")
 
 # comments:
 

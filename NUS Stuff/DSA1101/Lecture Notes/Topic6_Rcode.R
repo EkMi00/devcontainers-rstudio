@@ -1,8 +1,9 @@
 
-setwd("/workspaces/devcontainers-rstudio/NUS Stuff/DSA1101/Data")
+# setwd("/workspaces/devcontainers-rstudio/NUS Stuff/DSA1101/Data")
 # setwd("C:\\Users\\five8\\Documents\\GitHub\\devcontainers-rstudio\\NUS Stuff\\DSA1101\\Data")
-# setwd("C:\\Users\\Keck\\Documents\\GitHub\\devcontainers-rstudio\\NUS Stuff\\DSA1101\\Data")
-
+setwd("C:\\Users\\Keck\\Documents\\GitHub\\devcontainers-rstudio\\NUS Stuff\\DSA1101\\Data")
+# install.packages('e1071')
+# install.packages('ROCR')
 #############  EXAMPLE 1: CLASSIFYING FRUITS
 
 fruit.dat= read.csv("fruit.csv")
@@ -24,7 +25,7 @@ library(e1071)
 model <- naiveBayes(Fruit ~ Long+Yellow+Sweet,fruit.dat)
 
 
-newdata <- data.frame(Long=1,Sweet=1, Yellow=0)
+newdata <- data.frame(Long=1, Sweet=1, Yellow=0)
 newdata <- data.frame(lapply(newdata, as.factor))
 
 results <- predict (model,newdata,"raw")
@@ -37,8 +38,8 @@ results
 
 ######## EXAMPLE 2: EMPLOYEE & ONSITE EDUCALTIONAL PROGRAM
 
-
-sample <- read.table("C:/Data/sample1.csv",header=TRUE,sep=",")
+sample <- read.table("sample1.csv",header=TRUE,sep=",")
+# sample <- read.table("C:/Data/sample1.csv",header=TRUE,sep=",")
 head(sample)
 dim(sample)
 sample
@@ -113,7 +114,8 @@ results <- predict(model,testdata,"class"); results
 ############### BANK-SAMPLE DATA ==> ROC and AUC
 
 
-banktrain <- read.csv("C:/Data/bank-sample.csv", header=TRUE)
+# banktrain <- read.csv("C:/Data/bank-sample.csv", header=TRUE)
+banktrain <- read.csv("bank-sample.csv", header=TRUE)
 dim(banktrain)
 head(banktrain)
 
@@ -122,7 +124,8 @@ drops <- c("balance", "day", "campaign", "pdays", "previous", "month")
 banktrain <- banktrain [,!(names(banktrain) %in% drops )]
 
 # TESTING DATA SET
-banktest <- read.csv("C:/Data/bank-sample-test.csv")
+banktest <- read.csv("bank-sample-test.csv")
+# banktest <- read.csv("C:/Data/bank-sample-test.csv")
 banktest <- banktest[,!( names ( banktest ) %in% drops )]
 
 library(e1071)

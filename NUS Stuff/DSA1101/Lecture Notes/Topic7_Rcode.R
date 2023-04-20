@@ -1,6 +1,8 @@
-
 # LOGISTIC CURVE
-
+# setwd("/workspaces/devcontainers-rstudio/NUS Stuff/DSA1101/Data")
+# setwd("C:\\Users\\five8\\Documents\\GitHub\\devcontainers-rstudio\\NUS Stuff\\DSA1101\\Data")
+setwd("C:\\Users\\Keck\\Documents\\GitHub\\devcontainers-rstudio\\NUS Stuff\\DSA1101\\Data")
+# install.packages("Ml2")
 z = seq ( -10 ,10 ,0.1);
 logistic = function (z) {exp(z)/(1+ exp(z))}
 
@@ -9,7 +11,8 @@ plot(z, logistic(z), xlab ="x", ylab ="p", lty =1, type ='l')
 
 ##########  DATA SET ON CUSTOMER CHURN
 
-churn = read.csv("C:/Data/churn.csv")
+# churn = read.csv("C:/Data/churn.csv")
+churn = read.csv("churn.csv")
 head(churn)
 
 churn$Churned = as.factor(churn$Churned)
@@ -29,7 +32,7 @@ summary(M1)
 
 M2<- glm( Churned ~ Age + Married + Churned_contacts,
  data =churn,family = binomial(link ="logit"))
-summary(Ml2)
+summary(M2)
 
 M3<- glm( Churned ~Age + Churned_contacts,
  data =churn,family = binomial(link ="logit"))
