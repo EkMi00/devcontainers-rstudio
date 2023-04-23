@@ -82,7 +82,6 @@ for (j in 1:n_folds) {
 	acc[j]=mean(Y[test_j] == pred) 
 	# this acc[j] = sum(diag(confusion.matrix))/sum(confusion.matrix),
 	# where confusion.matrix=table(Y[test_j],pred)
-
 }
 err
 acc

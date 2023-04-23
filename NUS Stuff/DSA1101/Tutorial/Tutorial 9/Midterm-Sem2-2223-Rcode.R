@@ -145,7 +145,7 @@ ave.type2 = numeric(K) # to store the precision for each k of KNN
 type1=numeric(n_folds)
 type2=numeric(n_folds)
 
-for(i in 1:K){
+for(i in 1:K) {
 
 for (j in 1:n_folds) {
 

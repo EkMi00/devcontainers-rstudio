@@ -1,8 +1,11 @@
 
 ##########  GERMAN CREDIT DATA SET
+# setwd("C:/Data")
+# setwd("/mnt/c/Users/Keck/Documents/GitHub/devcontainers-rstudio/NUS Stuff/DSA1101/Data")
+# setwd("C:\\Users\\five8\\Documents\\GitHub\\devcontainers-rstudio\\NUS Stuff\\DSA1101\\Data")
+setwd("C:\\Users\\Keck\\Documents\\GitHub\\devcontainers-rstudio\\NUS Stuff\\DSA1101\\Data")
 
-
-setwd("C:\\Users\\staptkc\\Desktop\\DSA1101")
+# setwd("C:\\Users\\staptkc\\Desktop\\DSA1101")
 
 library(class)
 
@@ -41,7 +44,7 @@ knn.pred = knn(train.x, test.x, train.y,k=1)
 confusion.matrix = table(knn.pred , test.y)
 confusion.matrix
 accuracy = sum(diag(confusion.matrix))/sum(confusion.matrix); accuracy
-
+# print(accuracy)
 
 # Qe
 n_folds=5 # each fold has 50 data points
@@ -63,7 +66,7 @@ for (j in 1:n_folds) {
       # this acc[j] = sum(diag(confusion.matrix))/sum(confusion.matrix), where confusion.matrix=table(Y[test_j],pred)
       }
 
-mean(acc)
+# print(mean(acc))
 
 
 
@@ -89,7 +92,7 @@ accuracy[i] = mean(acc)
 
 }
 
-max(accuracy)
+# print(max(accuracy))
 sort(accuracy)[98:100] # the three largest accuracy
 index = which(accuracy == max(accuracy)) ; index # give index which is also the value of k.
 
@@ -108,10 +111,10 @@ library("rpart.plot")
 iris = read.csv("iris.csv")
 head(iris)
 names(iris)
+attach(iris)
 
 
-
-fit.iris <- rpart(Species ~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width,
+fit.iris <- rpart(class ~ sepal.length + sepal.width + petal.length + petal.width,
 method = "class", data =iris, control = rpart.control( minsplit =1),
 parms = list( split ='gini'))
 #split = 'information' or 'gini' 
@@ -148,36 +151,36 @@ predict(fit.iris, newdata = data.frame(Sepal.Length = 5.1, Sepal.Width = 3.3,
 library(ggplot2)
 library(magrittr)
 # sepal width vs. sepal length
-ggplot(iris , aes(x=sepal.length, y=sepal.width, color =species)) +
-geom_point ()+
-labs (x = "sepal length")+ labs (y = "sepal width")
+# ggplot(iris , aes(x=sepal.length, y=sepal.width, color =class)) +
+# geom_point ()+
+# labs (x = "sepal length")+ labs (y = "sepal width")
 
 # petal width vs. petal length
-ggplot(iris , aes(x=petal.length , y=petal.width , color =species)) +
-geom_point ()+
-labs(x = "petal length")+ labs (y = "petal width")
+# ggplot(iris , aes(x=petal.length , y=petal.width , color =class)) +
+# geom_point ()+
+# labs(x = "petal length")+ labs (y = "petal width")
 
 
 # OR using a usual way:
 
 # sepal width vs. sepal length
 
-attach(iris)
-plot(sepal.length, sepal.width, type = "n")
-points(sepal.length[species=="Iris-setosa"],sepal.width[species=="Iris-setosa"], pch = 20, col = "darkgreen")
-points(sepal.length[species=="Iris-versicolor"],sepal.width[species=="Iris-versicolor"], pch = 20, col = "red")
-points(sepal.length[species=="Iris-virginica"],sepal.width[species=="Iris-virginica"], pch = 20, col = "blue")
-legend(6.3,4.48, legend=c("setosa", "versicolor", "virginica"), col = c("darkgreen", "red", "blue"), pch = c(20,20,20))
+# attach(iris)
+# plot(sepal.length, sepal.width, type = "n")
+# points(sepal.length[class=="Iris-setosa"],sepal.width[class=="Iris-setosa"], pch = 20, col = "darkgreen")
+# points(sepal.length[class=="Iris-versicolor"],sepal.width[class=="Iris-versicolor"], pch = 20, col = "red")
+# points(sepal.length[class=="Iris-virginica"],sepal.width[class=="Iris-virginica"], pch = 20, col = "blue")
+# legend(6.3,4.48, legend=c("setosa", "versicolor", "virginica"), col = c("darkgreen", "red", "blue"), pch = c(20,20,20))
 
 
 
 # petal width vs. petal length
 
-plot(petal.length, petal.width, type = "n")
-points(petal.length[species=="Iris-setosa"],petal.width[species=="Iris-setosa"], pch = 20, col = "darkgreen")
-points(petal.length[species=="Iris-versicolor"],petal.width[species=="Iris-versicolor"], pch = 20, col = "red")
-points(petal.length[species=="Iris-virginica"],petal.width[species=="Iris-virginica"], pch = 20, col = "blue")
-legend(5,0.6, legend=c("setosa", "versicolor", "virginica"), col = c("darkgreen", "red", "blue"), pch = c(20,20,20))
+# plot(petal.length, petal.width, type = "n")
+# points(petal.length[class=="Iris-setosa"],petal.width[class=="Iris-setosa"], pch = 20, col = "darkgreen")
+# points(petal.length[class=="Iris-versicolor"],petal.width[class=="Iris-versicolor"], pch = 20, col = "red")
+# points(petal.length[class=="Iris-virginica"],petal.width[class=="Iris-virginica"], pch = 20, col = "blue")
+# legend(5,0.6, legend=c("setosa", "versicolor", "virginica"), col = c("darkgreen", "red", "blue"), pch = c(20,20,20))
 
 
 

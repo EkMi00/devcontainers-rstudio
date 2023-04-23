@@ -61,7 +61,7 @@ x2 = rnorm(100)
 y = 1 + 2*x1 -5*x2+ rnorm(100)
 lm(y~x1+x2)
 
-#instal.packages("rgl")
+#install.packages("rgl")
 library(rgl)
 M.2 = lm(y~x1+x2)
 # 3D plot to illustrate the data points

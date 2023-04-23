@@ -1,3 +1,7 @@
+# setwd("C:/Data")
+# setwd("/mnt/c/Users/Keck/Documents/GitHub/devcontainers-rstudio/NUS Stuff/DSA1101/Data")
+# setwd("C:\\Users\\five8\\Documents\\GitHub\\devcontainers-rstudio\\NUS Stuff\\DSA1101\\Data")
+setwd("C:\\Users\\Keck\\Documents\\GitHub\\devcontainers-rstudio\\NUS Stuff\\DSA1101\\Data")
 
 ########## CHURN DATA SET  (DECISION TREE)
 
@@ -33,7 +37,7 @@ data = churn ,
 control = rpart.control(minsplit = 1),
 parms = list(split ='information'))
 
-rpart.plot(fit , type =4, extra =2, clip.right.labs = FALSE , varlen =0, faclen =0)
+# rpart.plot(fit , type =4, extra =2, clip.right.labs = FALSE , varlen =0, faclen =0)
 
 
 # minsplit = 20 is by default. But we can change it.
@@ -96,38 +100,34 @@ acc=numeric(n_folds)
 
 for (j in 1:n_folds) {
 
-test1 <- which(folds_j_1 == j)
-test2 <- which(folds_j_2 == j)
-test3 <- which(folds_j_3 == j)
+	test1 <- which(folds_j_1 == j)
+	test2 <- which(folds_j_2 == j)
+	test3 <- which(folds_j_3 == j)
 
-train.1=data1[ -test1, ]
-train.2=data2[ -test2, ]
-train.3=data3[ -test3, ]
+	train.1=data1[ -test1, ]
+	train.2=data2[ -test2, ]
+	train.3=data3[ -test3, ]
 
-train = rbind(train.1, train.2, train.3) # this is the training data set
+	train = rbind(train.1, train.2, train.3) # this is the training data set
 
-fit.iris <- rpart(class ~ sepal.length + sepal.width + petal.length + petal.width,
-method = "class", data =train, control = rpart.control( minsplit =1),
-parms = list( split ='gini')) 
+	fit.iris <- rpart(class ~ sepal.length + sepal.width + petal.length + petal.width,
+	method = "class", data =train, control = rpart.control( minsplit =1),
+	parms = list( split ='gini')) 
 
-test = rbind(data1[test1,1:4], data2[test2,1:4], data3[test3,1:4] ) # test data 
+	test = rbind(data1[test1,1:4], data2[test2,1:4], data3[test3,1:4] ) # test data 
 
-real = c(data1[test1,5], data2[test2,5], data3[test3,5] ) 
-# should use c(), instead of rbind() when creating "real".
+	real = c(data1[test1,5], data2[test2,5], data3[test3,5] ) 
+	# should use c(), instead of rbind() when creating "real".
 
-pred = predict(fit.iris, newdata = test, type = 'class')
+	pred = predict(fit.iris, newdata = test, type = 'class')
 
-confusion.matrix = table(pred, real)
+	confusion.matrix = table(pred, real)
 
-acc[j] = sum(diag(confusion.matrix))/sum(confusion.matrix)
+	acc[j] = sum(diag(confusion.matrix))/sum(confusion.matrix)
 
 }
 acc
-mean(acc) # the accuracy is very high.
-
-
-
-
+print(mean(acc)) # the accuracy is very high.
 
 
 
@@ -162,8 +162,7 @@ cp=10^(-5:5); length(cp)
 misC=rep(0,length(cp)) # a vector to record the rate of mis-classification for each cp
 
 for(i in 1:length(cp)){
-
-      misclass=0
+	misclass=0
 	for (j in 1:n_folds) {
 	 	test <- which(folds_j == j)
 		train=banktrain[-c(test),]
@@ -176,19 +175,18 @@ for(i in 1:length(cp)){
              	parms=list(split='information'))
 
 		new.data=data.frame(banktrain[test,c(1:8)])
-            ##predict label for test data based on fitted tree
+		##predict label for test data based on fitted tree
 		pred=predict(fit,new.data,type='class')
-            misclass = misclass + sum(pred!=banktrain[test,9])
-       }
-       misC[i]=misclass/n
+		misclass = misclass + sum(pred!=banktrain[test,9])
+    }
+	misC[i]=misclass/n
 }
+print(misC)
 
-plot(-log(cp,base=10),misC,type='b')
+# plot(-log(cp,base=10),misC,type='b')
 
 ## determine the best cp in terms of
 ## misclassification rate
-
-
 
 best.cp =cp[which(misC == min(misC))] 
 # this is the value of cp that gives the lowest mis-classification rate
@@ -202,32 +200,3 @@ fit <- rpart(subscribed ~ job + marital + education+default + housing + loan + c
 
 # to get the tree plotted:
 rpart.plot(fit, type=4, extra=2, clip.right.labs=FALSE, varlen=0)#, faclen=3)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

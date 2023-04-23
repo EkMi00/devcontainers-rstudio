@@ -13,7 +13,7 @@ library('arulesViz')
 
 data(Groceries)
 
-?Groceries
+Groceries
 
 summary(Groceries)
 
@@ -84,7 +84,7 @@ inspect(sort(itemsets.3, by ="support"))
 # only TWO frequent itemsets that meets the minimum support of 0.02.
 
 
-###############  GETTING THE FREQUENT 3-ITEMSETS:
+###############  GETTING THE FREQUENT 4-ITEMSETS:
 
 itemsets.4 <- apriori(Groceries, parameter=list(minlen=4, maxlen=4,
     support=0.02, target="frequent itemsets"))

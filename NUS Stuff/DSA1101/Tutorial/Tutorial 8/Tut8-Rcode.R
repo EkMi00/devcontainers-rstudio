@@ -1,8 +1,10 @@
-
 ###### Q1:  TITANIC DATA SET & NAIVE BAYES
+# setwd("C:/Data")
+# setwd("/mnt/c/Users/Keck/Documents/GitHub/devcontainers-rstudio/NUS Stuff/DSA1101/Data")
+# setwd("C:\\Users\\five8\\Documents\\GitHub\\devcontainers-rstudio\\NUS Stuff\\DSA1101\\Data")
+setwd("C:\\Users\\Keck\\Documents\\GitHub\\devcontainers-rstudio\\NUS Stuff\\DSA1101\\Data")
 
-
-titanic= read.csv("C:/Data/Titanic.csv")
+titanic= read.csv("Titanic.csv")
 dim(titanic)
 head(titanic)
 
@@ -38,7 +40,7 @@ genderCounts["Yes","Female"]*
 ageCounts["Yes","Adult"]*
 tprior["Yes"]
 
-prob_survived
+# print(prob_survived)
 
 
 prob_not_survived <-
@@ -49,8 +51,8 @@ tprior["No"]
 
 
 prob_survived
-prob_not_survived
-
+# print(prob_not_survived)
+# print(c(prob_not_survived, prob_survived))
 prob_survived/prob_not_survived
 
 
@@ -65,7 +67,7 @@ test <- data.frame(Class="2nd", Sex="Female", Age="Adult")
 results <- predict(M1,test)
 results
 results <- predict(M1,test, "raw")
-results
+# print(results)
 
 #ratio of probability score
 prob_survived/prob_not_survived
@@ -124,8 +126,6 @@ plot(rocObj)
 
 auc1 = performance(predObj , measure ="auc")
 auc1@y.values[[1]] # 0.7597259
-
-
 
 
 # ROC for Naive Bayes classifier
