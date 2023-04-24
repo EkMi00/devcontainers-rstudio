@@ -25,7 +25,7 @@ inspect(head(Groceries)) # the first 6 transactions
 
 
 Groceries@itemInfo[1:10,]
-Groceries@data[,100:110]
+Groceries@data[,100:110] # Each column has every item, element is TRUE if specific transaction is there
 
 # the items for first 5 transactions:
 apply(Groceries@data[,1:5], 2,
@@ -126,7 +126,7 @@ inspect(sort( itemsets , by ="support"))
 rules <- apriori(Groceries, parameter=list(support=0.001,
          confidence=0.6, target = "rules"))
 
-plot(rules) $ scatter plot of all 2918 rules
+plot(rules) # scatter plot of all 2918 rules
 
 # Scatter plot with custom measures and can add limiting the plot to the 100 with the 
 # largest value for for the shading measure. 
@@ -159,11 +159,9 @@ plot(highLiftRules, method = "graph", engine = "igraph",
 
 
 plot(highLiftRules, method = "graph", engine = "igraph",
-  nodeCol = "red", edgeCol = "blue", alpha = 1)
+  nodeCol = "red", edgeCol = "blue", alpha = c(1))
 # this will fix the color be "red" for all lift values, 
 # only the size of the node is sorted by the support.
-
-
 
 #some common choices for 'method':
 # matrix, mosaic, doubledecker, graph, paracoord, scatterplot, grouped matrix, two-key plot, matrix3D
