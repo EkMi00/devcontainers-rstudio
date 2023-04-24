@@ -7,3 +7,13 @@
 # install.packages("ROCR")
 # install.packages('arules')
 # install.packages('arulesViz')
+
+library("dplyr")
+library("rgl")
+library("class")
+library("rpart")
+library("rpart.plot")
+library("e1071")
+library("ROCR")
+library('arules')
+library('arulesViz')
