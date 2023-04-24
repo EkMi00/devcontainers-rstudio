@@ -11,7 +11,6 @@ attach(titanic)
 tprior <- table(Survived)/sum(table(Survived))
 
 
-
 # P(X_i| Y==1 or Y==0)
 classCounts <- table(titanic[,c("Survived", "Class")])
 classCounts <-classCounts/rowSums(classCounts) # rowSums is a column vector

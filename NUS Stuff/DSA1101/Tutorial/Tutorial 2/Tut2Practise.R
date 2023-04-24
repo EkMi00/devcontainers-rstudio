@@ -37,9 +37,12 @@ var(FEV_male)
 
 
 plot(height, FEV, pch=20)
+
 female_height <- height[Sex==0]
 male_height <- height[Sex==1]
+
 plot(height, FEV, type="n")
+
 points(FEV_female ~ female_height, col='red', pch = 20)
 points(FEV_male ~ male_height, col='blue', pch = 20)
 legend(x=1.2, y=5, legend = c("Female", "Male"),

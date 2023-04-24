@@ -1,4 +1,5 @@
 setwd("C:/Data");
+
 data1 <- read.table("data1.txt", header=TRUE, sep="");
 head(data1)
 data1$color <- factor(data1$color)
@@ -29,9 +30,12 @@ print(data1[index,])
 qqnorm(satell, pch = 20)
 qqline(satell, col = "red")
 # The qq plot shows a longer left tail than the
-# right which shows a ;eft skew. This plot also
-# shows the satell quantity does not follow
-# a normal distributiom.
+# right which shows a ;eft skew.  (WRONG)  
+# This plot also shows the satell quantity 
+# does not follow a normal distributiom.
+
+# comments: the left tail is obviously shorter than normal. 
+# The sample of satell hence is NOT normally distributed.
 
 #Q4
 
