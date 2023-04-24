@@ -1,4 +1,5 @@
-setwd("C:\\Users\\Keck\\Documents\\GitHub\\devcontainers-rstudio\\NUS Stuff\\DSA1101\\Data")
+# setwd("C:\\Users\\Keck\\Documents\\GitHub\\devcontainers-rstudio\\NUS Stuff\\DSA1101\\Data")
+setwd("C:\\Users\\five8\\Documents\\GitHub\\devcontainers-rstudio\\NUS Stuff\\DSA1101\\Data")
 library("matlib") # Less Accurate
 
 colleges <- read.table("Colleges.txt",header =TRUE,sep= "\t")
@@ -17,7 +18,7 @@ print(lm(Acceptance ~ SAT + Top.10p, data=colleges)$coefficients)
 detach(colleges)
 
 house <- read.csv("house_selling_prices_FL.csv")
-house$NW <- factor(NW)
+house$NW <- factor(house$NW)
 attach(house)
 
 corr <- cor(size, price)

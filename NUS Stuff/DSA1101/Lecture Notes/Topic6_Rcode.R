@@ -1,7 +1,7 @@
 
 # setwd("/workspaces/devcontainers-rstudio/NUS Stuff/DSA1101/Data")
-# setwd("C:\\Users\\five8\\Documents\\GitHub\\devcontainers-rstudio\\NUS Stuff\\DSA1101\\Data")
-setwd("C:\\Users\\Keck\\Documents\\GitHub\\devcontainers-rstudio\\NUS Stuff\\DSA1101\\Data")
+setwd("C:\\Users\\five8\\Documents\\GitHub\\devcontainers-rstudio\\NUS Stuff\\DSA1101\\Data")
+# setwd("C:\\Users\\Keck\\Documents\\GitHub\\devcontainers-rstudio\\NUS Stuff\\DSA1101\\Data")
 # install.packages('e1071')
 # install.packages('ROCR')
 #############  EXAMPLE 1: CLASSIFYING FRUITS

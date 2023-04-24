@@ -3,8 +3,8 @@ library(dplyr)
 library(ggplot2)
 # setwd("C:/Data")
 # setwd("/mnt/c/Users/Keck/Documents/GitHub/devcontainers-rstudio/NUS Stuff/DSA1101/Data")
-# setwd("C:\\Users\\five8\\Documents\\GitHub\\devcontainers-rstudio\\NUS Stuff\\DSA1101\\Data")
-setwd("C:\\Users\\Keck\\Documents\\GitHub\\devcontainers-rstudio\\NUS Stuff\\DSA1101\\Data")
+setwd("C:\\Users\\five8\\Documents\\GitHub\\devcontainers-rstudio\\NUS Stuff\\DSA1101\\Data")
+# setwd("C:\\Users\\Keck\\Documents\\GitHub\\devcontainers-rstudio\\NUS Stuff\\DSA1101\\Data")
 sales <- read.csv("yearly_sales.csv")
 
 head(sales)
@@ -62,7 +62,7 @@ boxplot <- ggplot(sales, aes(x = "", y = sales_total)) +
      geom_boxplot(outlier.shape=NA) +
      scale_y_continuous(limits = quantile(sales$sales_total))
 
-# b_out <- boxplot(total, xlab = "Total Sales")$out
+b_out <- boxplot(total, xlab = "Total Sales")$out
 index <- which(total %in% c(b_out))
 # print(sales[c(index), ], )
 # print(boxplot)
