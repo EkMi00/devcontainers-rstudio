@@ -23,7 +23,7 @@ attach(house)
 
 corr <- cor(size, price)
 
-# plot(size, price, type='n')
+plot(size, price, type='n')
 # points(price ~ size, col="black", pch = 20)
 plot(size, price, pch=20)
 
