@@ -181,6 +181,8 @@ rules_df <- DATAFRAME(rules, setStart='', setEnd='', separate = TRUE) # DATAFRAM
 # inspect(subset(rules, subset=lhs %oin% "citrus"))  # no item called "citrus" different from %pin%
 
 
+# inspect(subset(rules, subset=lhs %in% "liver loaf"))[, "support"] # get support
+
 # the top 3 rules sorted by LIFT:
 # inspect(head(sort(rules, by="lift"), 3))
 
