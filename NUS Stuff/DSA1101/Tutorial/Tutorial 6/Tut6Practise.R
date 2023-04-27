@@ -23,11 +23,16 @@ TP = confusion.matrix[2, 2]
 FP = confusion.matrix[2, 1]
 TN = confusion.matrix[1, 1]
 FN = confusion.matrix[1, 2]
-acc = (TP + TN) / sum(confusion.matrix)
-TPR = TP / (TP + FN)
-FPR = FP / (FP + TN)
-FNR = FN / (TP + FN)
-pre = TP / (TP + FP)
+# acc = (TP + TN) / sum(confusion.matrix)
+acc = sum(diag(confusion.matrix)) / sum(confusion.matrix) # 0.58
+# TPR = TP / (TP + FN)
+TPR = confusion.matrix[2,2] / sum(confusion.matrix[, 2]) # 0.7042254
+# FPR = FP / (FP + TN)
+FPR = confusion.matrix[2,1] / sum(confusion.matrix[, 1]) # 0.7241379
+# FNR = FN / (TP + FN)
+FNR = confusion.matrix[1,2] / sum(confusion.matrix[, 2]) # 0.2957746
+# pre = TP / (TP + FP) 
+pre = confusion.matrix[2,2] / sum(confusion.matrix[2, ]) # 0.7042254
 
 # print(acc)
 
