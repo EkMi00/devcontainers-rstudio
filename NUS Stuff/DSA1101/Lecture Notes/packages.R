@@ -1,4 +1,5 @@
 # install.packages("dplyr")
+# install.packages("tidyverse")
 # install.packages("rgl")
 # install.packages("matlib")
 # install.packages("class")
@@ -10,6 +11,7 @@
 # install.packages('arulesViz')
 
 library("dplyr")
+library("tidyverse")
 library("rgl")
 library("matlib")
 library("class")
