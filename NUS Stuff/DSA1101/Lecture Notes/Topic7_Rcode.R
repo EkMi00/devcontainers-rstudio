@@ -1,7 +1,7 @@
 # LOGISTIC CURVE
 # setwd("/workspaces/devcontainers-rstudio/NUS Stuff/DSA1101/Data")
-setwd("C:\\Users\\five8\\Documents\\GitHub\\devcontainers-rstudio\\NUS Stuff\\DSA1101\\Data")
-# setwd("C:\\Users\\Keck\\Documents\\GitHub\\devcontainers-rstudio\\NUS Stuff\\DSA1101\\Data")
+# setwd("C:\\Users\\five8\\Documents\\GitHub\\devcontainers-rstudio\\NUS Stuff\\DSA1101\\Data")
+setwd("C:\\Users\\Keck\\Documents\\GitHub\\devcontainers-rstudio\\NUS Stuff\\DSA1101\\Data")
 # install.packages("Ml2")
 z = seq ( -10 ,10 ,0.1);
 logistic = function (z) {exp(z)/(1+ exp(z))}
