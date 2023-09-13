@@ -1,8 +1,8 @@
 # Write a function that takes a number as an input and returns its square
 
 sq <- function(x) {x^2}
-# print(sq(3))
-# print(sq(-pi))
+sq(3)
+sq(-pi)
 
 # Write a for loop to compute the sum of the first n positive integers
 
@@ -11,7 +11,7 @@ s <- 0
 for (i in 1:n){
   s <- s + i
 }
-# print(s)
+s
 
 # Write a function that takes in two vectors and computes their dot product
 
@@ -20,9 +20,9 @@ dot <- function(x,y) {sum(x*y)}
 x <- c(1,-2,3)
 y <- c(1,1,1)
 
-# print(dot(x,y))
-print(dot(pi,x))
-# print(dot("a",x))
+dot(x,y)
+dot(pi,x)
+dot("a",x)
 
 dot <- function(x,y){
   if (is.numeric(x) & is.numeric(y) & length(x) == length(y)){
@@ -33,9 +33,9 @@ dot <- function(x,y){
     }
     return(result)
   }
-  else  { return("error") }
+  else { return("error") }
 }
 
-# print(dot(x,y))
-print(dot(pi,x))
-# print(dot("a",x))
+dot(x,y)
+dot(pi,x)
+dot("a",x)
