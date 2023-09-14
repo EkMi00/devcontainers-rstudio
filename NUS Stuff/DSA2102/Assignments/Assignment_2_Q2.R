@@ -35,18 +35,19 @@ testCases <- function(n) {
     for (i in w) {
         A <- getBanded(n,i)
 		b <- 1:n
-        case <- sprintf("Case: %.0f x %.0f matrix, Bandwidth w = %.0f",n,n,i)
-        print(case)
+        
         L <- my.LUfactorisation(A,i)
         L[upper.tri(A)] <- 0
         diag(L) <- 1
         U <- my.LUfactorisation(A,i)
         U[lower.tri(A)] <- 0
-        print("LU:" )
+
+        case <- sprintf("Case: %.0f x %.0f matrix, Bandwidth w = %.0f;",n,n,i)
+        print(case)
+        print("LU:")
         print(L%*%U)
-        print("A:" )
+        print("A:")
         print(A)
-        # print(L%*%U - M)
     }  
 }
 
