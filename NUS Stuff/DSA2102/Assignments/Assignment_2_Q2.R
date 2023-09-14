@@ -13,12 +13,11 @@ reduce <- function(A, i, upper) {
         for (k in (i+1):(upper)) {
             A[j,k] <- A[j,k] - (A[j,i] * A[i,k])
         }
-        A[j,n+1] <- A[j,n+1] - (A[j,i] * A[i,n+1]) # For the b vector
     }
-    return(A)
+    return(A[,-(n+1)])
 }
 
-my.elimination <- function(A,b,w) {
+my.LUfactors <- function(A,b,w) {
 	A <- cbind(A,b)
     n <- nrow(A)
     for (i in 1:(n-w)) {
@@ -37,26 +36,20 @@ testCases <- function(n) {
     for (i in w) {
         M <- getBanded(n,i)
 		b <- 1:n
-        myans <- my.solve(M, b, i)
-        correct <- solve(M, b)
         case <- sprintf("Case: %.0f x %.0f matrix, Bandwidth w = %.0f",n,n,i)
         print(case)
-        L <- my.elimination(M,b,i)[, -(n+1)]
+        L <- my.LUfactors(M,b,i)
         L[upper.tri(M)] <- 0
         diag(L) <- 1
-        U <- my.elimination(M,b,i)[, -(n+1)]
+        U <- my.LUfactors(M,b,i)
         U[lower.tri(M)] <- 0
-    
+        print("My Answer:" )
         print(L%*%U)
+        print("Correct Answer:" )
         print(M)
-        print(L%*%U - M < 10^-10)
-        # print("My Answer:" )
-        # print(myans)
-        # print("Correct Answer:" )
-        # print(correct)
+        # print(L%*%U - M < 10^-10)
     }  
 }
 
-# print(LU[1])
 n <- 5
 print(testCases(n))

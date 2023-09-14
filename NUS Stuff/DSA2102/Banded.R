@@ -43,7 +43,6 @@ my.elimination <- function(A,b,w) {
             A <- reduce(A, i, n)
         }
     }
-    # A[n, n-1] <- A[n, n-1]/A[n-1, n-1] 
     return(A)
 }
 
