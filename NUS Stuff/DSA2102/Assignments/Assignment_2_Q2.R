@@ -17,8 +17,7 @@ reduce <- function(A, i, upper) {
     return(A[,-(n+1)])
 }
 
-my.LUfactors <- function(A,b,w) {
-	A <- cbind(A,b)
+my.LUfactorisation <- function(A,w) {
     n <- nrow(A)
     for (i in 1:(n-w)) {
         A <- reduce(A, i, i+w)
@@ -38,18 +37,20 @@ testCases <- function(n) {
 		b <- 1:n
         case <- sprintf("Case: %.0f x %.0f matrix, Bandwidth w = %.0f",n,n,i)
         print(case)
-        L <- my.LUfactors(M,b,i)
+        L <- my.LUfactorisation(M,i)
         L[upper.tri(M)] <- 0
         diag(L) <- 1
-        U <- my.LUfactors(M,b,i)
+        U <- my.LUfactorisation(M,i)
         U[lower.tri(M)] <- 0
-        print("My Answer:" )
+        print("LU:" )
         print(L%*%U)
-        print("Correct Answer:" )
+        print("A:" )
         print(M)
-        # print(L%*%U - M < 10^-10)
+        # print(L%*%U - M)
     }  
 }
 
-n <- 5
+# sink(file="./output.txt", append=T)
+n <- 7
 print(testCases(n))
+# sink()
