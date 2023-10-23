@@ -6,15 +6,21 @@ getBanded <- function(n, w) {
     return(M)
 } 
 
+count <- 0
+
 reduce <- function(A, i, upper) {
     n <- nrow(A)
     for (j in (i+1):(upper)) {
         A[j,i] <- A[j,i]/A[i,i]
+        # print(A[j,i] != 0)
         for (k in (i+1):(upper)) {
             A[j,k] <- A[j,k] - (A[j,i] * A[i,k])
+            # count <- count + 2
         }
         A[j,n+1] <- A[j,n+1] - (A[j,i] * A[i,n+1]) # For the b vector
+        # count <- count + 3
     }
+    # print(count)
     return(A)
 }
 
@@ -52,10 +58,13 @@ back_reduce <- function(U, b, lower, j) {
     }
     else {
         b[j] <- b[j]/U[j,j]
+        # count <- count + 1
         for (i in (lower):(j-1)) {
             b[i] <- b[i] - U[i,j] * b[j]
+            # count <- count + 2
         }
     }
+    # print(count)
     return(b)
 }
 
@@ -89,6 +98,8 @@ my.backsub <- function(U, b, w) {
         
     }
 	b[1] <- b[1]/U[1,1]
+    # count <- count + 1
+    # print(count)
 	return(b)
 }
 
@@ -111,19 +122,21 @@ testCases <- function(n) {
 
         case <- sprintf("Case: %.0f x %.0f matrix, Bandwidth w = %.0f",n,n,i)
         print(case)
-
-        # print("My Answer:" )
-        print(myans)
-        # print("Correct Answer:" )
-        print(correct)
+        print(count)
+        # print(myans)
+        # print(correct)
     }  
 }
 
 
-n <- 5
-print(testCases(n))
+n <- 7
+# print(testCases(n))
 
+w <- 3
 M <- getBanded(n, w)
 b <- 1:n
 # LU <- my.elimination(M,b,w)
 # print(LU)
+x <- my.solve(M, b, w)
+mycount <- (n - w)*(2*w*w + 5*w + 1) + (w-1)*(4*w*w + 7*w)/6 + w*w
+# print(mycount)

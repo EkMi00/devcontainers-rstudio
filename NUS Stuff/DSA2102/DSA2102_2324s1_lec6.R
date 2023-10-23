@@ -6,7 +6,6 @@ wtm.elimination <- function(A,b){
         m <- A[j,i]/A[i,i]
         for (k in (i+1):(n+1)){
           A[j,k] <- A[j,k] - (m*A[i,k])
-
         }
       }
     }
@@ -35,3 +34,13 @@ wtm.solve <- function(A,b){
 	wtm.backsub(U,u)
 }
 
+
+A <- rbind(
+	c(1,4,1,1,1),
+	c(0,1,-7, 2,3),
+	c(0,0,2,3,4),
+	c(0,0,1,7,3),
+	c(0,0,1,0,2))
+b <- c(0,-2,-3,-7,0)
+
+print(solve(A,b))
