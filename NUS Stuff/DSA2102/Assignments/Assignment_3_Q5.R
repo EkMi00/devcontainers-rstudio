@@ -24,11 +24,12 @@ qr.householder <- function(A) {
     }
 
     Q <- Reduce("%*%", H) 
-    A <- Q%*%R
+    QR <- Q%*%R
     I <- t(Q) %*% Q
     deci <- 14
-    res <- list('Q'=round(Q, deci),'R'=round(R, deci),
-        'Q%*%R'=round(A, deci), 't(Q) %*% R' = round(I, deci))
+    res <- list('A' = A,'Q'=round(Q, deci),'R'=round(R, deci), 
+        'a) t(Q) %*% R' = round(I, deci),
+        'b) Q%*%R'=round(QR, deci))
     return(res)
 }
 
@@ -38,13 +39,4 @@ m <- 3
 A <- matrix(sample((-9:9), size = n*m, replace=TRUE), n, m, byrow=TRUE)
 
 S <- qr.householder(A)
-# print(S)
-test_cases <- function(n, m, test) {
-    for (i in 1:test) {
-        A <- matrix(sample((-9:9), size = n*m, replace=TRUE), n, m, byrow=TRUE)
-        case <- sprintf("Case: %.0f", i)
-        print(case)
-        print(qr.householder(A))
-    }
-}
-test_cases(n, m, 3)
+print(S)
