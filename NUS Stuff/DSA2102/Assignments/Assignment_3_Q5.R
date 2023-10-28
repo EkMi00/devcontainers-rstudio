@@ -4,17 +4,17 @@ qr.householder <- function(A) {
     n <- ncol(A)
     m <- nrow(A)
     H <- list()
-    if (m > n) {
+    if (m > n) { 
         c <- n
     } else {
         c <- m
     }
+    
     for (k in 1:c) {
         x <- R[k:m,k]
-        e <- as.matrix(c(1, rep(0, length(x)-1)))
-        vk <- sign(x[1]) * sqrt(sum(x^2)) * e + x
+        v_k <- as.matrix(c(sqrt(sum(x^2)), rep(0, length(x)-1))) - x
         suppressWarnings(
-            h_k <- diag(length(x)) - 2 * as.vector(vk %*% t(vk)) / (t(vk) %*% vk)
+            h_k <- diag(length(x)) - 2 * as.vector(v_k %*% t(v_k)) / (t(v_k) %*% v_k)
         )
         if (k > 1) {
             h_k <- bdiag(diag(k-1), h_k)
@@ -26,10 +26,11 @@ qr.householder <- function(A) {
     Q <- Reduce("%*%", H) 
     QR <- Q%*%R
     I <- t(Q) %*% Q
-    deci <- 14
-    res <- list('A' = A,'Q'=round(Q, deci),'R'=round(R, deci), 
-        'a) t(Q) %*% R' = round(I, deci),
-        'b) Q%*%R'=round(QR, deci))
+    place <- 14
+    res <- list('Q'=round(Q, place),'R'=round(R, place), 
+        'a) t(Q) %*% Q' = round(I, place),
+        'b) A' = A, 
+        'Q %*% R'=round(QR, place))
     return(res)
 }
 
