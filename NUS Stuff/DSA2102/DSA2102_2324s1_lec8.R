@@ -6,7 +6,7 @@ wtm.cholesky <- function(A){
       A[j,i] <- A[j,i]/A[i,i]
     }
     for (j in (i+1):n){
-      for (k in (i+1):n){
+      for (k in j:n){
         A[k,j] <- A[k,j] - (A[k,i]*A[j,i])
       }
     }
