@@ -36,7 +36,6 @@ hold off
 
 
 
-
 % xx=-3:0.1:3;
 % ff=xx.^2-2*xx;
 % figure

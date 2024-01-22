@@ -72,7 +72,7 @@ table(bankdata$poutcome)
 
 p=seq(0,1,0.01)
 D=-(p*log2(p)+(1-p)*log2(1-p))
-plot(p,D,ylab="D", xlab="P(Y=1)", type="l")
+# plot(p,D,ylab="D", xlab="P(Y=1)", type="l")
 
 
 ### Calculating conditional entropy when 'poutcome' is splitted 
@@ -105,7 +105,7 @@ data=play_decision,
 control=rpart.control(minsplit=1),
 parms=list(split='information'))
 
-rpart.plot(fit, type=4, extra=2)
+# rpart.plot(fit, type=4, extra=2)
 
 
 newdata <- data.frame(Outlook="rainy", Temperature="mild",
