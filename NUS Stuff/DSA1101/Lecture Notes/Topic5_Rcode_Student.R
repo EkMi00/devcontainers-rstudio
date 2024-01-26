@@ -90,6 +90,9 @@ x2=which(bankdata$poutcome=="failure")
 table(bankdata$subscribed[x1])
 table(bankdata$subscribed[x2])
 
+# newdata <- data.frame(31,"management","single","tertiary","no",0,"yes","no","cellular",15,"apr",185,2,-1,0,"unknown")
+# predict(fit, newdata, type="class")
+# print(newdata)
 
 ############  PLAYING GOLF EXAMPLE
 
@@ -108,8 +111,7 @@ parms=list(split='information'))
 # rpart.plot(fit, type=4, extra=2)
 
 
-newdata <- data.frame(Outlook="rainy", Temperature="mild",
-Humidity="high", Wind=FALSE)
+newdata <- data.frame(Outlook="rainy", Temperature="mild", Humidity="high", Wind=FALSE)
 newdata
 
 predict(fit,newdata=newdata,type="prob")
