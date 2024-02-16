@@ -43,21 +43,23 @@ qn1_2
 ```{r}
 barplot(qn1_2[,"2022 Dec"] ~ qn1_2[,"Number.of.Days"], 
     main="Tourists' Length of Stay, Dec 2022",
-    xlab="Number of Days")
+    xlab="Number of Days",
+    ylab="Percentage of Arrivals")
 ```
 
 ## Question 2
 ### Question 2.1
 
 ```{r}
-yrbss <- read.csv("yrbss.csv")
-yrbss <- na.omit(yrbss) ; yrbss[!duplicated(yrbss)]; 
-    colnames(yrbss)[colnames(yrbss) 
+yrbss <- read.csv("../data/yrbss.csv")
+yrbss <- na.omit(yrbss);
+    yrbss <- unique(yrbss);
+    colnames(yrbss)[colnames(yrbss)
         == "record"] <- "id";
-    colnames(yrbss)[colnames(yrbss) 
+    colnames(yrbss)[colnames(yrbss)
         == "stweight"] <- "weight_kg";
-    yrbss[,"grade"] <- 
-    as.numeric(sub("th", "", yrbss[,"grade"]))
+    yrbss[,"grade"] <-
+    as.numeric(gsub("th", "", yrbss[,"grade"]))
 str(yrbss)
 ```
 
