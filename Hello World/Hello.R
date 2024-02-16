@@ -5,18 +5,9 @@ setwd("C:\\Users\\Keck\\Documents\\GitHub\\devcontainers-rstudio\\NUS Stuff\\DSA
 8 + 3
 
 foo <- function() {
-    print("fuck me")
+    print("kill me")
 }
 foo()
 
-v1 <- c(1, 2, 3)
-x <- cbind(1, v1)
-x
-
-x = c( -1, 0, 1, 2)
-y = c( -10, -4 , 0, 14) 
-lm(y~x)
-
-x_2 = x^2
-x = cbind(x, x_2)
-lm(y~x)
+x = c(31, 41, 59, 26, 53, 59, 47, 43, 23, 34, 42, 44)
+var(x)

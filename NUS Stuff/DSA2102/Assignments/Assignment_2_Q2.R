@@ -53,5 +53,6 @@ testCases <- function(n) {
 
 # sink(file="./output.txt", append=T)
 n <- 7
-print(testCases(n))
+# print(testCases(n))
+testCases(n)
 # sink()

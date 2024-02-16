@@ -1,0 +1,77 @@
+---
+title: "Tutorial Week 05"
+author: "Ethan Keck"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE, include = TRUE,
+                      fig.align = "center",  out.width = "80%")
+```
+
+## Question 1
+### Question 1.1
+Answer question 1.1 here.
+
+```{r}
+library(readxl)
+qn1_1 <- read_excel("../data/tourist.xlsx", range="A10:G26")
+head(qn1_1)
+```
+
+### Question 1.2
+Answer question 1.2 here.
+
+```{r}
+qn1_2 <- qn1_1[-c(1, 12, 16),-1]
+qn1_2 <- apply(qn1_2, 2, function (x) return(as.integer(x)/sum(as.integer(x))))
+
+Number.of.Days <- c("0", "1", "2", "3", "4", "5", "6", "7", 
+    "8-10", "11-14", "15-29", "30-59", "60+")
+Number.of.Days <- factor(Number.of.Days, 
+    levels=c("0", "1", "2", "3", "4", "5", "6", "7", 
+    "8-10", "11-14", "15-29", "30-59", "60+"))
+periods <- data.frame(Number.of.Days)
+
+qn1_2 <- cbind(periods, qn1_2)
+qn1_2
+```
+
+### Question 1.3
+
+```{r}
+barplot(qn1_2[,"2022 Dec"] ~ qn1_2[,"Number.of.Days"], 
+    main="Tourists' Length of Stay, Dec 2022",
+    xlab="Number of Days")
+```
+
+## Question 2
+### Question 2.1
+
+```{r}
+yrbss <- read.csv("yrbss.csv")
+yrbss <- na.omit(yrbss) ; yrbss[!duplicated(yrbss)]; 
+    colnames(yrbss)[colnames(yrbss) 
+        == "record"] <- "id";
+    colnames(yrbss)[colnames(yrbss) 
+        == "stweight"] <- "weight_kg";
+    yrbss[,"grade"] <- 
+    as.numeric(sub("th", "", yrbss[,"grade"]))
+str(yrbss)
+```
+
+### Question 2.2
+
+```{r}
+qn2_2 <- yrbss[yrbss$bmi < 15 & yrbss$sex == "Female",
+    c("id", "age", "race4", "weight_kg", "bmi")]
+str(qn2_2)
+```
+
+### Question 2.3
+
+```{r}
+qn2_2$height_m <- sqrt(qn2_2$weight_kg/qn2_2$bmi)
+head(qn2_2)
+```

@@ -1,0 +1,64 @@
+---
+title: "Tutorial Week 4 (Suggested Answers)"
+author: "Yuting Huang"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE, 
+                      include = TRUE,
+                      fig.align = "center",  out.width = "80%")
+```
+
+# Question 1
+## Question 1.1
+
+```{r}
+# Read data set into R
+df <- read.csv("../data/Shanghai.csv", header = TRUE)
+# Print the first three rows of the data frame
+head(df, 3)
+```
+
+## Question 1.2
+
+```{r}
+df$Month <- factor(df$Month)
+avg_temp <- tapply(df$Temp, df$Month, function(x) round(mean(x), 2))
+avg_temp
+```
+
+## Question 1.3
+
+```{r}
+# Combine two strings in base R
+df$yr_month = paste(df$Year, df$Month, sep = "-")
+
+# Alternatively, use stringr function
+# library(stringr)
+# df$yr_month = str_c(df$Year, df$Month, sep = "-")
+```
+
+## Question 1.4
+
+```{r}
+library(lubridate)
+df$yr_month <- ym(df$yr_month)
+class(df$yr_month)
+
+# Alternatively, use ymd()
+# df$yr_month = ymd(paste(df$yr_month, "01", sep = "-"))
+```
+
+## Question 1.5
+
+```{r}
+# Extract observations in 2012
+df_2012 = df[df$Year == 2012, ]
+plot(df_2012$yr_month, df_2012$Temp, type = "b", pch = 19,
+     xlab = "Month", ylab = "Temperature (degrees C)", 
+     main = "Monthly temperature in Shanghai 2012")
+```
+

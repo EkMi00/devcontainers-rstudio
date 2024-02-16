@@ -1,0 +1,69 @@
+---
+title: "Tutorial Week 4"
+author: "Ethan Keck"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE, include = TRUE,
+                      fig.align = "center",  out.width = "80%")
+```
+
+## Question 1
+### Question 1.1
+Answer question 1.1 here.
+
+```{r}
+#setwd("C:/DSA2101/src")
+df <- read.csv("../data/Shanghai.csv")
+# df <- read.csv("../data/Shanghai.csv", HEADER = TRUE)
+df$Month <- as.factor(df$Month)
+str(df)
+head(df, 3)
+```
+
+### Question 1.2
+Answer question 1.2 here.
+
+```{r}
+df$avg_temp <- tapply(df$Temp, df$Month,
+ FUN=function(x) return (round(mean(x) ,2)))
+avg_temp <- unique(df$avg_temp)
+avg_temp
+```
+
+### Question 1.3
+
+```{r}
+df$yr_month <- sprintf("%d-%02d", df$Year, df$Month)
+str(df)
+```
+
+### Question 1.4
+
+```{r}
+library(lubridate, warn.conflicts = FALSE)
+df$yr_month <- ym(df$yr_month)
+str(df)
+
+```
+
+### Question 1.5
+
+```{r}
+df_2012 <- df[df$Year == "2012",]
+df$Month <- factor(month.abb[df$Month], levels = month.abb)
+
+library(ggplot2)
+
+ggplot(df_2012, aes(x=Month, y=avg_temp, group=1)) +
+    geom_line() +
+    geom_point(shape=20, size=5, stat = "unique") +
+    labs(title = "Monthly Temperature in Shanghai 2012",
+        x = "Months",
+        y = "Temperature") +
+    theme_classic() +
+    theme(text = element_text(size=15))
+    
+```

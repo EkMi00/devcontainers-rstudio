@@ -40,4 +40,4 @@ m <- 3
 A <- matrix(sample((-9:9), size = n*m, replace=TRUE), n, m, byrow=TRUE)
 
 S <- qr.householder(A)
-print(S)
+S

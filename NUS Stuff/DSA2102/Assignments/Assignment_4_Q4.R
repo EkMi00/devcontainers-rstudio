@@ -16,5 +16,5 @@ x <- c(-1, 0, 1, 2)
 y <- c(-10, -4 , 0, 14)
 
 my.basis_coeff <- div_diff(x,y)
-print(my.basis_coeff)
+my.basis_coeff
 

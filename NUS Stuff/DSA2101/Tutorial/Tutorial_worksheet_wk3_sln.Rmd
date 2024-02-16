@@ -1,0 +1,79 @@
+---
+title: "Tutorial Week 3 (Suggested Answers)"
+author: "Yuting Huang"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE, 
+                      include = TRUE,
+                      fig.align = "center",  out.width = "80%")
+```
+
+## Question 1
+### Question 1.1
+
+```{r}
+# Load data
+data(airquality)
+
+# Structure of the data set
+str(airquality)
+
+# A table that displays the "Month" variable
+table(airquality$Month)
+```
+
+There are five months in the data, from May to September.
+
+### Question 1.2
+
+```{r}
+# Check for missing values
+sum(is.na(airquality))
+
+# Remove entries with missing values
+df <- na.omit(airquality)
+```
+
+Yes, there are missing values in the data frame. After removing the missing entries, we are left with 111 observations in the new data frame `df`.
+
+### Question 1.3
+
+```{r}
+# Create new data frames for summer and fall months
+df_summer <- df[df$Month <= 6, ]
+df_fall <- df[df$Month > 6, ]
+```
+
+### Question 1.4
+
+```{r}
+# Create new column in the df data frame
+df$season <- as.factor(ifelse(df$Month <= 6, "Summer", "Fall"))
+
+# Summary of temperature in summer and fall months
+tapply(df$Temp, df$season, summary)
+```
+### Question 1.5
+
+```{r}
+# Recode the Month variable from 5-9 to May through September
+df$Month[df$Month == 5] = "May"
+df$Month[df$Month == 6] = "Jun"
+df$Month[df$Month == 7] = "Jul"
+df$Month[df$Month == 8] = "Aug"
+df$Month[df$Month == 9] = "Sep"
+
+# Reorder the Month variable
+month_levels <- c("May", "Jun", "Jul", "Aug", "Sep")
+df$Month = factor(df$Month, 
+                  levels = month_levels, 
+                  ordered = TRUE)
+
+# Boxplot
+boxplot(df$Temp ~ df$Month,
+        xlab = "Month", ylab = "Temperature (degrees F)", 
+        main = "Monthly temperature in New York")
+```

@@ -23,9 +23,7 @@ lagrange_basis <- function(x_list, k) {
 }
 x = c(-sqrt(3/5), 0, sqrt(3/5))
 
-print(lagrange_basis(x, 0))
-
-
+lagrange_basis(x, 0)
 
 lagrange_poly <- function(x, y) {
     result = 0
@@ -37,21 +35,15 @@ lagrange_poly <- function(x, y) {
 }
 
 
-
 cheby.x <- chebychev_nodes(0,2*pi,6)
 cheby.y <- sapply(cheby.x, cos)
-print("Chebyshev nodes:")
-# 6.1761381 5.3630341 3.9546967 2.3284886 0.9201512 0.1070472
-print(cheby.x)
-print("f(x_k):")
-# 0.9942759  0.6056999 -0.6872469 -0.6872469  0.6056999  0.9942759
-print(cheby.y)
+cheby.x
+cheby.y
 
 my.poly <- lagrange_poly(cheby.x, cheby.y)
-print(my.poly)
-# 0.9736137 + 0.2992113*x - 1.025028*x^2 + 0.3111183*x^3 - 0.02475801*x^4 - 2.602085e-18*x^5
+my.poly
 
 actual.poly <- round(poly_calc(cheby.x, cheby.y), 15)
-print(actual.poly)
-# 0.9736137 + 0.2992113*x - 1.025028*x^2 + 0.3111183*x^3 - 0.02475801*x^4
+actual.poly
+
 
