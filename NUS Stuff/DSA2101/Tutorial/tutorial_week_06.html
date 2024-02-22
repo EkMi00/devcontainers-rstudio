@@ -363,9 +363,7 @@ display: none;
 <h3>Question 1.1</h3>
 <pre class="r"><code>library(tidyverse)
 qn1_1 &lt;- read.csv(&quot;../data/yrbss.csv&quot;)
-qn1_1 &lt;- qn1_1 %&gt;% 
-    drop_na() %&gt;% 
-    distinct() %&gt;%
+qn1_1 &lt;- qn1_1 %&gt;% drop_na() %&gt;% distinct() %&gt;%
     rename(&quot;id&quot; = &quot;record&quot;, &quot;weight_kg&quot; = &quot;stweight&quot;) %&gt;%
     mutate(grade = as.numeric(gsub(&quot;th&quot;, &quot;&quot;, grade)))
 str(qn1_1)</code></pre>
@@ -487,7 +485,7 @@ Flight carrier code: HA</li>
 <pre class="r"><code>fast_ave &lt;- flights %&gt;%
     mutate(ave_speed = distance/(air_time/60)) %&gt;%
     slice_max(ave_speed) %&gt;%
-    select(carrier, flight)</code></pre>
+    select(carrier, flight, ave_speed)</code></pre>
 <ol start="3" style="list-style-type: decimal">
 <li>Which flight traveled the fastest (highest average speed in miles
 per hour)?<br />
