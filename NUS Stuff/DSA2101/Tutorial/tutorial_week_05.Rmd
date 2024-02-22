@@ -50,8 +50,10 @@ barplot(qn1_2[,"2022 Dec"] ~ qn1_2[,"Number.of.Days"],
 ### Question 2.1
 
 ```{r}
-yrbss <- read.csv("yrbss.csv")
-yrbss <- na.omit(yrbss) ; yrbss[!duplicated(yrbss)]; 
+yrbss <- read.csv("../data/yrbss.csv")
+yrbss <- na.omit(yrbss) ; 
+    # yrbss <- yrbss[!duplicated(yrbss),]; 
+    yrbss <- unique(yrbss);
     colnames(yrbss)[colnames(yrbss) 
         == "record"] <- "id";
     colnames(yrbss)[colnames(yrbss) 
