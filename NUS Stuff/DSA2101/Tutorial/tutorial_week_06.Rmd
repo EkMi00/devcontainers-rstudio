@@ -15,10 +15,12 @@ knitr::opts_chunk$set(message = FALSE, warning = FALSE, include = TRUE,
 
 ```{r}
 library(tidyverse)
-qn1_1 <- read.csv("../data/yrbss.csv")
+qn1_1 <- read_csv("../data/yrbss.csv")
 qn1_1 <- qn1_1 %>% drop_na() %>% distinct() %>%
-    rename("id" = "record", "weight_kg" = "stweight") %>%
-    mutate(grade = as.numeric(gsub("th", "", grade)))
+    rename(id = record, weight_kg = stweight) %>%
+    mutate(grade = as.numeric(gsub("th", "", grade))) 
+    # str_remove(grade, "th")
+    # gsub("\\D", "", grade)
 str(qn1_1)
 ```
 
@@ -38,7 +40,7 @@ str(qn1_2)
 ```{r}
 library(readxl)
 library(lubridate)
-qn2_1 <- read_excel("../data/MSPUS.xls", range="A11:B255")
+qn2_1 <- read_excel("../data/MSPUS.xls", range="A11:B255", col_names=TRUE)
 qn2_1 <- qn2_1 %>% 
     rename("date"="observation_date",
         "price"="MSPUS") %>%
@@ -50,8 +52,10 @@ str(qn2_1)
 
 ```{r}
 library(ggplot2)
+library(scales)
 ggplot(qn2_1, aes(x=date, y=price)) +
     geom_line() +
+    scale_y_continuous(labels = comma) +
     labs(title = "Median Sales Prices of Houses for the United States",
     x = element_blank(), y = element_blank()) +
     theme_classic() +
@@ -95,13 +99,11 @@ flights <- flights %>%
 ```{r}
 most_flights <- flights %>% 
     filter(month == 6) %>%
-    group_by(origin) %>% 
-    count(origin) %>%
-    ungroup %>%
+    count(dest) %>%
     slice_max(n)
 ```
 1. Which destination airport received the most flights from New York in June? \
-  Airport code: `r most_flights["origin"]` \
+  Airport code: `r most_flights["dest"]` \
   Number of flights: `r most_flights["n"]`
 
 ### Question 3.2
@@ -132,11 +134,9 @@ Flight number: `r fast_ave["flight"]`
 
 ```{r}
 most_day <- flights %>%
-    group_by(day) %>%
-    count(day) %>% 
-    ungroup() %>%
+    count(weekdays(time_hour)) %>% 
     slice_max(n)
 ```
 4. What day of the week saw the most flights? \
-Day of week: `r most_day["day"]` \
+Day of week: `r most_day[1]` \
 Number of flights: `r most_day["n"]`
