@@ -57,7 +57,7 @@ head(qn1_2, 2)
 ```
 
 ```{r}
-library(nberwp)
+# library(nberwp)
 papers <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-09-28/papers.csv')
 authors <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-09-28/authors.csv')
 programs <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-09-28/programs.csv')
@@ -79,7 +79,6 @@ joined_df <- left_join(papers, paper_authors) %>%
     .after = paper
   ) 
 
-# joined_df
 str(joined_df)
 ```
 
@@ -108,13 +107,14 @@ ggplot() +
     theme_classic() +
     theme(text = element_text(size=15))
 ```
+- Covid-19?
 
 ### Question 2.4
 
 ```{r}
 qn2_4 <- joined_df %>% select(paper, name)
 ```
-### Question 2.4
+### Question 2.5
 
 ```{r}
 qn2_5 <- joined_df %>% select(paper, year, name) %>% 

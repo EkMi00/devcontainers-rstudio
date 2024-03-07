@@ -28,7 +28,7 @@ T_stat = xy_diff/(sqrt(x_var/n + y_var/m))
 T_stat
 
 num = (x_var/n + y_var/m)^2
-denom = (x_var/n)^2/(n-1) + (y_var/m)^2/(m-1)
+denom = ((x_var/n)^2)/(n-1) + ((y_var/m)^2)/(m-1)
 deg_r = floor(num/denom)
 deg_r
 
