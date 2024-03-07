@@ -1,0 +1,102 @@
+---
+title: "Tutorial Week 5 (Suggested Answers)"
+author: "Yuting Huang"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE, 
+                      include = TRUE,
+                      fig.align = "center",  out.width = "80%")
+```
+
+## Question 1
+### Question 1.1
+
+```{r}
+# Read in the Excel file
+library(readxl)
+qn1_1 <- read_excel("../data/tourist.xlsx", range = "A10:G26")
+head(qn1_1)
+```
+
+### Question 1.2
+The main problem with this data is the presence of overlapping categories in the `Data Series` column.
+
++ `Total International Visitor Arrivals (Number)`, `15 Days & Over (Number)`, and `Average Length Of Stay (Day)`.
+
++ After this step, the column contains 13 non-overlapping categories.
+
+```{r}
+# Remove the "average length of stay" row
+qn1_2 <- qn1_1[2:15, ]
+
+# Remove the "15 and over" row
+qn1_2 <- qn1_2[-11, ]
+
+head(qn1_2)
+```
+
+### Question 1.3
+
+Note: To refer to variable names with spaces, we can use backticks.
+
+```{r}
+# Prepare data for the bar plot
+# Extract data for Dec 2022
+qn1_3 <- qn1_2[, 1:2]
+# Compute the percentages
+qn1_3$pct <- qn1_3$`2022 Dec`/sum(qn1_3$`2022 Dec`)
+
+# Create the bar plot
+barplot(qn1_3$pct, 
+        names.arg = c(0:7, "8-10",  "11-14", "15-29", "30-59", "60+"), 
+        cex.names = 0.8, cex.axis = 0.8, las = 2,
+        main = "Tourists' Length of Stay, Dec 2022", 
+        ylab = "Percentage of Arrivals", 
+        xlab = "Number of days")
+```
+
+## Question 2
+### Question 2.1
+
+```{r}
+# Read in the data
+yrbss <- read.csv("../data/yrbss.csv", stringsAsFactors = TRUE)
+
+# Check if there are missing values
+sum(is.na(yrbss))
+
+# Remove all missing values
+yrbss <- na.omit(yrbss)
+
+# Check if there are duplicated rows
+sum(duplicated(yrbss))
+
+# Remove duplicated rows (if any)
+yrbss <- unique(yrbss)
+
+# Rename columns
+colnames(yrbss)[colnames(yrbss) == "record"] = "id"
+colnames(yrbss)[colnames(yrbss) == "stweight"] = "weight_kg"
+
+# Convert "grade" into numeric
+yrbss$grade <- as.numeric(gsub("th", "", yrbss$grade))
+```
+
+### Question 2.2
+
+```{r}
+# Select rows and columns
+qn2_2 <- yrbss[yrbss$bmi < 15 & yrbss$sex == "Female", c("id", "age", "race4", "weight_kg", "bmi")]
+```
+
+### Question 2.3
+
+```{r}
+# Create a new column
+qn2_2$height_m <- sqrt(qn2_2$weight_kg/qn2_2$bmi)
+head(qn2_2)
+```

@@ -1,10 +1,4 @@
-H_f = @(x,y) [1200*x.^2-400*y+2 -400*x;-400*x 200];
-minus_H_f = @(x,y) [-(1200*x.^2-400*y+2) 400*x;400*x -200];
-
-if chol(H_f)
-    disp('Matrix is symmetric positive definite.')
-elseif chol(minus_H_f)
-    disp('Matrix is symmetric negative definite.')
-else
-    disp('Matrix is not symmetric positive definite')
-end
+syms x y
+f(x, y) = 100*(y-x^2)^2 + (1-x)^2
+grad_f = gradient(f, [x,y])
+H_f = hessian(f, [x,y])

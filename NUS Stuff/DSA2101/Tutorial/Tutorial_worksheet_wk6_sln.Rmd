@@ -1,0 +1,134 @@
+---
+title: "Tutorial Week 6 (Suggested Answers)"
+author: "Yuting Huang"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE, 
+                      include = TRUE,
+                      fig.align = "center",  out.width = "80%")
+```
+
+```{r}
+# Load necessary packages
+library(tidyverse)
+library(lubridate)
+library(readxl)
+```
+
+## Question 1
+### Question 1.1
+
+```{r}
+# Read in the data
+qn1_1 <- read.csv("../data/yrbss.csv", stringsAsFactors = TRUE) %>% 
+  drop_na() %>% 
+  distinct() %>%
+  rename(id = record, 
+         weight_kg = stweight) %>%
+  mutate(grade = as.numeric(str_remove(grade, "th")))
+```
+
+### Question 1.2
+
+```{r}
+qn1_2 <- qn1_1 %>% 
+  filter(bmi < 15, sex == "Female") %>%
+  select(id, age, race4, weight_kg, bmi) %>%
+  mutate(height_m = sqrt(weight_kg/bmi))
+```
+
+## Question 2
+### Question 2.1
+
+```{r}
+qn2_1 <- read_excel("../data/MSPUS.xls", skip = 10, col_names = TRUE) %>%
+  rename(date = 1, price = 2) %>%
+  mutate(date = ymd(date))
+```
+
+### Question 2.2
+
+```{r}
+options(scipen = 999)
+plot(qn2_1$date, qn2_1$price, type = "l", lwd = 3, 
+     xlab = "", ylab = "", 
+     main = "Median Sales Price of Houses sold for the United States", las = 1)
+```
+
+### Question 2.3
+
+```{r}
+qn2_3 <- qn2_1 %>%
+  filter(date >= "2015-01-01", date <= "2023-10-01") %>%
+  mutate(year = year(date),
+         quarter = quarter(date),
+         quarter = factor(paste0("Q", quarter)))
+```
+
+### Question 2.4
+
+```{r}
+options(scipen = 999)
+plot(qn2_3$date, qn2_3$price, type = "o", pch = 16,
+     xlab = "", ylab = "", 
+     main = "Median Housing prices, 2019 to 2023", las = 1)
+```
+
+## Question 3
+### Question 3.1
+
+The destination airport code is **ORD**, with **1547** flights from New York in June.
+
+```{r}
+# Load package and data
+library(nycflights13)
+data(flights)
+
+# 1. Which destination received the most flights from New York in June?
+flights %>% 
+  filter(month == 6) %>%
+  count(dest, sort = TRUE) %>% 
+  head(1)
+```
+
+### Question 3.2
+
+Flight carrier code: **HA**
+
+```{r}
+# 2. Which carrier had the greatest average distance per flights?
+flights %>% 
+  group_by(carrier) %>%
+  summarize(avg_dist = mean(distance)) %>%
+  slice_max(avg_dist, n = 1)
+```
+
+### Question 3.3
+
+Flight carrier code: **DL**
+
+Flight number: **1499**
+
+```{r}
+# 3. Which flight traveled the fastest (highest average speed in miles per hour)?
+flights %>%
+  mutate(speed = distance/(air_time/60)) %>%
+  slice_max(speed, n = 1) %>%
+  select(carrier, flight, origin, dest, speed)
+```
+
+### Question 3.4
+
+Day: **Monday**
+
+Total number of flights: **50690**
+
+```{r}
+# 4. What day of the week saw the most flights?
+flights %>%
+  count(weekdays(time_hour)) %>% slice_max(n, n = 1)
+```
