@@ -93,11 +93,11 @@ flights %>% filter(dep_delay > 0) %>%
   # count(carrier, sort=TRUE) %>%
   left_join(airlines, by="carrier")
 
-  flights <- flights %>%
-    # na.omit() %>% 
-    # filter(complete.cases(.)) %>%
-    drop_na() %>%
-    distinct()
+flights <- flights %>%
+  # na.omit() %>% 
+  # filter(complete.cases(.)) %>%
+  drop_na() %>%
+  distinct()
 ```
 
 ### Question 3.1
