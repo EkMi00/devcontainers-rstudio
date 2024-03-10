@@ -1,0 +1,154 @@
+---
+title: "Tutorial Week 7 (Suggested Answers)"
+author: "Yuting Huang"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE, 
+                      include = TRUE,
+                      fig.align = "center",  out.width = "65%")
+```
+
+```{r}
+# Load necessary packages
+library(tidyverse)
+library(readxl)
+library(stringr)
+library(lubridate)
+```
+
+## Question 1
+### Question 1.1
+
+```{r}
+# Read in data
+qn1_1 <- read_excel("../data/tourist.xlsx", range = "A10:G26") %>%
+  # Remove redundant rows
+  slice(-c(1, 12, 16)) %>%
+  mutate(k = row_number(), .before = 1) %>%
+  # Convert into tidy data
+  pivot_longer(`2022 Dec`:`2022 Jul`, names_to = "month", values_to = "arrivals") %>%
+  # Separate year and month
+  separate(month, into = c("year", "month"), convert = TRUE) %>%
+  # Convert month into an ordered factor variable
+  mutate(month = factor(month, levels = month.abb, ordered = TRUE)) %>%
+  # Rename variables
+  rename(duration = 2) %>%
+  # Arrange observation 
+  arrange(year, month, k)
+```
+
+```{r}
+glimpse(qn1_1)
+```
+
+### Question 1.2
+
+```{r}
+qn1_2 <- qn1_1 %>%
+  group_by(duration) %>%
+  mutate(lag_arrival = dplyr::lag(arrivals, order_by = month),
+         mom_change = (arrivals - lag_arrival)*100/lag_arrival) %>%
+  ungroup() %>%
+  select(-lag_arrival) %>%
+  filter(!is.na(mom_change)) # 65 obs after removing July 2022
+```
+
+```{r}
+head(qn1_2, 3)
+```
+
+## Question 2
+### Question 2.1
+
+Follow the instructions on the web site to import the five data sets. Here is one way to import them.
+
+```{r}
+url <- "https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/"
+date <- "2021/2021-09-28/"
+papers <- readr::read_csv(paste0(url, date, "papers.csv"))
+authors <- readr::read_csv(paste0(url, date, "authors.csv"))
+programs <- readr::read_csv(paste0(url, date, "programs.csv"))
+paper_authors <- readr::read_csv(paste0(url, date, "paper_authors.csv"))
+paper_programs <- readr::read_csv(paste0(url, date, "paper_programs.csv"))
+```
+
+### Question 2.2
+
+```{r}
+qn2_2 <- papers %>% 
+  left_join(paper_programs, by = "paper") %>%
+  left_join(programs, by = "program") %>%
+  filter(program_category == "Finance") %>%
+  count(year, program_desc, program_category) %>%
+  ungroup()
+```
+
+```{r}
+glimpse(qn2_2)
+```
+
+### Question 2.3
+
+```{r}
+qn2_3 <- qn2_2 %>% 
+  pivot_wider(names_from = program_desc, values_from = n, values_fill = 0)
+
+plot(qn2_3$year, qn2_3$`Corporate Finance`, 
+     type = "l", lwd = 3, col = "indianred4", las = 1,
+     xlab = "Year", ylab = "Number of paper", 
+     main = "Number of Finance papers from 1978 to present")
+lines(qn2_3$year, qn2_3$`Asset Pricing`, 
+      type = "l", lwd = 3, col = "gray")
+legend("topleft", legend = c("Corporate Finance", "Asset Pricing"),
+       lty = 1, lwd = 2, col = c("indianred4", "gray"))
+```
+
+After some exploration, we find that the data is only available up to June 2021. This explains why the total number of papers in 2021 appears to be smaller than usual (same thing applies to Finance papers).
+
+```{r}
+# Number of paper in each year
+papers %>% 
+  left_join(paper_programs, by = "paper") %>%
+  left_join(programs, by = "program") %>%
+  count(year, month) %>%
+  arrange(desc(year), month)
+```
+
+
+
+### Question 2.4
+
+```{r}
+qn2_4 <- papers %>%
+  left_join(paper_authors, by = "paper") %>%
+  left_join(authors, by = "author")
+```
+
+### Question 2.5
+
+```{r}
+qn2_5 <- qn2_4 %>%
+  mutate(
+    decade = case_when(
+      year <= 1979                ~ "1970s",
+      year > 1979 & year <= 1989  ~ "1980s",
+      year > 1989 & year <= 1999  ~ "1990s",
+      year > 1999 & year <= 2009  ~ "2000s",
+      year > 2009 & year <= 2019  ~ "2010s",
+      year > 2019                 ~ "2020s",
+    ),
+    decade = factor(decade)
+  ) %>%
+  count(decade, paper) %>%
+  group_by(decade) %>% 
+  summarize(avg_n_authors = mean(n)) %>% 
+  ungroup()
+```
+
+```{r}
+head(qn2_5, 3)
+```
