@@ -10,76 +10,47 @@ H_f = @(x,y) [1200*x.^2-400*y+2 -400*x;-400*x 200];
 %################################################################%
 
 % For x0 = [1.2;1.2]
+figure
+x = linspace(-2,2,100);
+y = linspace(-1,3,100);
+[X,Y] = meshgrid(x,y);
+Z = f(X,Y);
+contour(X,Y,Z,logspace(-1,3,20), "DisplayName", "Contour");
+hold on;
+
 x_path = newton_line(f, grad_f, H_f, [1.2; 1.2]);
-figure
-x = linspace(-2,2,100);
-y = linspace(-1,3,100);
-[X,Y] = meshgrid(x,y);
-Z = f(X,Y);
-contour(X,Y,Z,logspace(-1,3,20));
-hold on;
-plot(x_path(1,1:end-1), x_path(2,1:end-1), '-o');
-hold on;
-plot(x_path(1,end), x_path(2,end), '-x','MarkerSize', 10,'LineWidth', 2.5);
-hold off;
+plot(x_path(1,:), x_path(2,:), '-o', "DisplayName", "Newton");
+% plot(x_path(1,end), x_path(2,end), '-x','MarkerSize', 10,'LineWidth', 2.5);
 
-title(['Contour, Path of Iterates, (Newton+Line Search), x0 = [1.2;1.2]']);
-xlabel('x');
-ylabel('y');
-legend('Contour', 'Path of Iterates');
-
-
-% For x0 = [1.2;1.2]
 x_path = descent_line(f, grad_f, [1.2; 1.2]);
-figure
-contour(X,Y,Z,logspace(-1,3,20));
-hold on;
-plot(x_path(1,1:end-1), x_path(2,1:end-1), '-o');
-hold on;
-plot(x_path(1,end), x_path(2,end), '-x','MarkerSize', 10,'LineWidth', 2.5);
+plot(x_path(1,:), x_path(2,:), '-x', "DisplayName", "GD");
+% plot(x_path(1,end), x_path(2,end), '-x','MarkerSize', 10, 'LineWidth', 2.5);
 hold off;
-
-title('Contour, Path of Iterates, (Gradient Descent+Line Search), x0 = [1.2;1.2]');
+title(['Contour and Path of Iterates, x0 = [1.2; 1.2]']);
 xlabel('x');
 ylabel('y');
-legend('Contour', 'Path of Iterates');
-
-
-
+legend;
 
 % For x0 = [-1.2; 1.0]
-x_path = newton_line(f, grad_f, H_f, [-1.2; 1.0]);
 figure
 x = linspace(-2,2,100);
 y = linspace(-1,3,100);
 [X,Y] = meshgrid(x,y);
 Z = f(X,Y);
-contour(X,Y,Z,logspace(-1,3,20));
+contour(X,Y,Z,logspace(-1,3,20), "DisplayName", "Contour");
 hold on;
-plot(x_path(1,1:end-1), x_path(2,1:end-1), '-o');
-hold on;
-plot(x_path(1,end), x_path(2,end), '-x','MarkerSize', 10,'LineWidth', 2.5);
-hold off;
+x_path = newton_line(f, grad_f, H_f, [-1.2; 1.0]);
+plot(x_path(1,:), x_path(2,:), '-o', "DisplayName", "Newton");
 
-title('Contour, Path of Iterates, (Newton+Line Search), x0 = [-1.2;1.0]');
-xlabel('x');
-ylabel('y');
-legend('Contour', 'Path of Iterates');
-
-% For x0 = [-1.2; 1.0]
 x_path = descent_line(f, grad_f, [-1.2; 1.0]);
-figure
-contour(X,Y,Z,logspace(-1,3,20));
-hold on;
-plot(x_path(1,1:end-1), x_path(2,1:end-1), '-o');
-hold on;
-plot(x_path(1,end), x_path(2,end), '-x','MarkerSize', 10,'LineWidth', 2.5);
+plot(x_path(1,:), x_path(2,:), '-x', "DisplayName", "GD");
 hold off;
 
-title('Contour, Path of Iterates, (Gradient Descent+Line Search), x0 = [-1.2;1.0]');
+title(['Contour and Path of Iterates, x0 = [-1.2; 1.0]']);
 xlabel('x');
 ylabel('y');
-legend('Contour', 'Path of Iterates');
+legend;
+
 
 
 %################################################################%

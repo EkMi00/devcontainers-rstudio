@@ -1,0 +1,108 @@
+---
+title: "Midterm Practise"
+author: "Ethan"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE, include = TRUE,
+                      fig.align = "center",  out.width = "80%")
+```
+
+## Question 1
+### Question 1.1
+Answer question 1.1 here.
+
+```{r}
+heights <- read.csv("../data/heights.csv", header=TRUE, stringsAsFactors = TRUE)
+# heights
+sum(is.na(heights))
+
+apply(heights, 2, function (x) sum(is.na(x)))
+
+tapply(heights$earn, heights$sex, mean)
+
+```
+
+### Question 1.2
+Answer question 1.2 here.
+
+```{r}
+hist(heights$earn, freq=FALSE,
+    main = "Histogram of Earnings", xlab = "Earnings per annum",
+    col = "indianred", border = "white")
+
+plot(heights$age, heights$earn, pch=2)
+abline(reg=lm(earn~age, data=heights), col="gray60", lty="dashed")
+
+
+
+barplot(tapply(heights$earn, heights$race, mean))
+
+boxplot(heights$earn~heights$race)
+```
+
+## Question 2
+
+```{r}
+# install.packages("readr")
+library(readr)
+heights <- read_csv("../data/heights.csv", col_types = "infiif") # with underscore, specify column types
+heights
+
+# install.packages("readxl")
+library(readxl)
+read_excel("../data/read_excel_01.xlsx", range="C6:E8", col_names=FALSE)
+
+
+file_name <- "../data/UNESCAP_population_2010_2015.xlsx"
+female_0_4 <- read_excel("../data/UNESCAP_population_2010_2015.xlsx", sheet=3)
+
+library(stringr)
+sheet_names <- excel_sheets(file_name)
+female_0_4 %>% 
+  mutate(age=str_split(excel_sheets(file_name)[3], ",", simplify = TRUE)[3],
+         age=str_trim(age))
+
+# Check how to read in by group in lecture notes
+```
+```{r}
+hawkers <- readRDS("../data/hawker_ctr_raw.rds")
+str(hawkers[[1]][[7]])
+
+hawkers_116 <- hawkers[[1]][-1]
+
+hawkers_116[[1]]$ADDRESSSTREETNAME
+
+# street_name <- sapply(hawkers_116, function(x) x$ADDRESSSTREETNAME)
+# postal_code <- sapply(hawkers_116, function(x) x$ADDRESSPOSTALCODE)
+# name <- sapply(hawkers_116, function(x) x$NAME)
+# coordinates <- sapply(hawkers_116, function(x) x$XY)
+# 
+# hawkers_df <- data.frame(postal_code, name, coordinates)
+
+hawkers_df <- do.call(rbind, lapply(hawkers_116, as.data.frame))
+
+hawkers_df 
+# street_name
+```
+
+```{r}
+library(jsonlite)
+all_lines <- readLines("../data/read_json_02.txt")
+json_list <- lapply(all_lines, fromJSON)
+json_list
+
+convert_2_df <- function(x) {
+  lower = ifelse("lower" %in% x$shelf, 1, 0)
+  middle = ifelse("middle" %in% x$shelf, 1, 0)
+  upper = ifelse("upper" %in% x$shelf, 1, 0)
+  data.frame(fruit = x$fruit, price = x$price, lower, middle, upper)
+}
+df_row <- lapply(json_list, convert_2_df)
+df_row
+df_fruit <- rbind(df_row[[1]], df_row[[2]], df_row[[3]])
+df_fruit
+
+```
