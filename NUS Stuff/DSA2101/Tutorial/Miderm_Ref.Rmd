@@ -107,3 +107,26 @@ df_fruit <- rbind(df_row[[1]], df_row[[2]], df_row[[3]])
 df_fruit
 
 ```
+
+```{r}
+library(nycflights13)
+data(flights)
+
+flights
+
+flights %>% mutate(across(year:time_hour, 
+                          function (x) sum(is.na(x)))) %>% slice_head()
+
+# apply(flights, 2, function (x) sum(is.na(x)))
+
+```
+
+```{r}
+df1 <- tibble(x = 1:3)
+df2 <- tibble(y = 3:1)
+bind_cols(df1, df2)
+df1 <- tibble(x = 1:3)
+df2 <- tibble(x = 3:1)
+bind_rows(df1, df2)
+
+```
