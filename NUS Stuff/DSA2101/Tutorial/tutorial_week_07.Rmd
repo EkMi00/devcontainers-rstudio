@@ -64,11 +64,11 @@ programs <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/t
 paper_authors <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-09-28/paper_authors.csv')
 paper_programs <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-09-28/paper_programs.csv')
 
-
-joined_df <- left_join(papers, paper_authors) %>% 
-  left_join(authors) %>% 
-  left_join(paper_programs) %>% 
-  left_join(programs)%>% 
+# 
+joined_df <- left_join(papers, paper_authors) %>%
+  left_join(authors) %>%
+  left_join(paper_programs) %>%
+  left_join(programs)%>%
   mutate(
     catalogue_group = str_sub(paper, 1, 1),
     catalogue_group = case_when(
@@ -77,7 +77,7 @@ joined_df <- left_join(papers, paper_authors) %>%
       catalogue_group == "w" ~ "General"
     ),
     .after = paper
-  ) 
+  )
 
 str(joined_df)
 ```
@@ -85,9 +85,14 @@ str(joined_df)
 ### Question 2.2
 
 ```{r}
-qn2_2 <- joined_df %>% filter(program_category == "Finance") %>%
-  select(year, program_desc, program_category) %>% 
-  group_by(year, program_desc) %>% mutate(n=n()) %>% ungroup() %>% distinct()
+# qn2_2 <- joined_df %>% filter(program_category == "Finance") %>%
+#   select(year, program_desc, program_category) %>% 
+#   group_by(year, program_desc) %>% mutate(n=n()) %>% ungroup() %>% distinct()
+
+qn2_2 <- papers %>% left_join(paper_programs, by="paper") %>% 
+  left_join(programs, by="program") %>%
+  filter(program_category=="Finance") %>% 
+  count(year, program_desc, program_category)
 glimpse(qn2_2)
 ```
 ### Question 2.3
@@ -98,6 +103,9 @@ library(ggplot2)
 plot1 <- qn2_2 %>% filter(program_desc=="Corporate Finance")
 plot2 <- qn2_2 %>% filter(program_desc=="Asset Pricing")
 
+plot(plot1$year, plot1$n, type="l", color="indianred", lwd=3)
+lines(plot2$year, plot2$n, color="grey")
+# legend()
 
 ggplot() +
     geom_line(data = plot1, aes(x=year, y=n), color = "red") +
@@ -112,12 +120,15 @@ ggplot() +
 ### Question 2.4
 
 ```{r}
-qn2_4 <- joined_df %>% select(paper, name)
+qn2_4 <- papers %>% left_join(paper_authors, by="paper") %>% 
+  left_join(authors, by="author") %>% select(paper, year, name)
+glimpse(qn2_4)
 ```
 ### Question 2.5
 
 ```{r}
-qn2_5 <- joined_df %>% select(paper, year, name) %>% 
+# qn2_4 %>% mutate(decade = case_when(year <= 1979 - ""))
+qn2_5 <- qn2_4 %>% select(paper, year, name) %>%
   mutate(year=paste(floor(year/10), "0s", sep="")) %>%
   rename(decade = year) %>% group_by(paper, decade) %>%
   summarize(n = n()) %>% ungroup() %>%

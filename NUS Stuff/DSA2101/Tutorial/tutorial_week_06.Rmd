@@ -85,10 +85,15 @@ ggplot(qn2_3, aes(x=date, y=price)) +
 
 ## Question 3
 ```{r}
-# install.packages("nycflights13")
+install.packages("nycflights13")
 library(nycflights13)
 data(flights)
-flights <- flights %>%
+
+flights %>% filter(dep_delay > 0) %>% 
+  # count(carrier, sort=TRUE) %>%
+  left_join(airlines, by="carrier")
+
+  flights <- flights %>%
     # na.omit() %>% 
     # filter(complete.cases(.)) %>%
     drop_na() %>%
