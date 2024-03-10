@@ -60,6 +60,7 @@ file_name <- "../data/UNESCAP_population_2010_2015.xlsx"
 female_0_4 <- read_excel("../data/UNESCAP_population_2010_2015.xlsx", sheet=3)
 
 library(stringr)
+library(tidyverse)
 sheet_names <- excel_sheets(file_name)
 female_0_4 %>% 
   mutate(age=str_split(excel_sheets(file_name)[3], ",", simplify = TRUE)[3],
