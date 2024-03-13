@@ -1,0 +1,98 @@
+---
+title: "Midterm"
+author: "Ethan"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE, include = TRUE,
+                      fig.align = "center",  out.width = "80%")
+```
+
+```{r}
+library(tidyverse)
+library(readxl)
+library(stringr)
+library(lubridate)
+```
+
+
+```{r}
+df1_1 <- read_excel("../data/qn1.xlsx", sheet=1)
+
+df1_2 <- read_excel("../data/qn1.xlsx", sheet=2)
+```
+
+## Question 1
+### Question 1.1
+
+```{r}
+df1_2 <-df1_2 %>% 
+  spread(key = new_admission_type, value = count, convert=TRUE) %>%
+  rename(epi_week = week)
+
+qn1_1 <- df1_1 %>% left_join(df1_2, by="epi_week")
+str(qn1_1)
+```
+
+### Question 1.2
+
+```{r}
+
+# plot(qn1_1$Hospitalised, qn1_1$Hospitalised)
+plot(qn1_1$date, qn1_1$Hospitalised,
+     type = "l", lwd = 3, col = "blue", las = 1,
+     xlab = "Year", ylab = "Counts",
+     main = "Covid-19 Weekly Statistics in Singapore")
+lines(qn1_1$date, qn1_1$ICU,
+      type = "l", lwd = 3, col = "gray")
+legend("topleft", legend = c("Hospitalisations", "ICU Admissions"),
+       lty = 1, lwd = 2, col = c("blue", "gray"))
+```
+
+### Question 1.3
+
+```{r}
+qn1_3 <- qn1_1 %>% mutate(weekly_growth = round(100*(Count - lag(Count,1))/(lag(Count,1)),2)) %>%
+  select(epi_week, date, Count, weekly_growth) %>% slice(-1)
+
+head(qn1_3, 6)
+```
+
+## Question 2
+
+### Question 2.1
+
+```{r}
+df2 <- read_csv("../data/qn2.csv")
+qn2_1 <- df2 %>% mutate(town = as.factor(town), 
+               flat_type = as.factor(flat_type),
+               month = ym(month))
+
+str(qn2_1)
+```
+### Question 2.2
+```{r}
+qn2_2 <- qn2_1 %>% group_by(town) %>%
+  summarize(median_per_sqm = median(floor_area_sqm)) %>%
+  slice_max(order_by=median_per_sqm, n=3) 
+qn2_2
+```
+
+### Question 2.3
+```{r}
+
+plot2 <- qn2_1 %>% 
+  filter(month < ymd("2024-01-01")) %>%
+  group_by(month) %>% count %>% ungroup %>%
+  mutate(month = month.abb[month(month)],
+         month = factor(month, levels = month.abb, ordered = TRUE))
+
+ave = mean(plot2$n)
+
+barplot(plot2$n ~ plot2$month, main = "Number of HDB Transactions in 2023",
+     xlab = "", ylab = "")
+abline(ave, 0)
+```
+
