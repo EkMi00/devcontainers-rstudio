@@ -27,3 +27,14 @@
 # library(devtools)
 
 
+library(tidyverse)
+x = tibble(c(340, 395, 358, 268))
+x %>% mutate(res = ((x - 340.25)**2)/340.25) %>%
+    summarize(test = sum(res)) %>% .$test
+chisq.test(x)
+
+x1 = matrix(c(45, 68, 45, 25, 15, 5, 11, 8, 3, 10, 5, 0), ncol = 4, nrow = 3)
+rownames(x1) <- c('Soccer', 'NS_athletes', 'Non_athletes')
+colnames(x1) <- c('c0', 'c1', 'c2', 'c3')
+x1
+chisq.test(x1)
