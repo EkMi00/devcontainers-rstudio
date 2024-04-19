@@ -38,3 +38,5 @@ rownames(x1) <- c('Soccer', 'NS_athletes', 'Non_athletes')
 colnames(x1) <- c('c0', 'c1', 'c2', 'c3')
 x1
 chisq.test(x1)
+
+pnorm(0)-pnorm(-1)
