@@ -1,0 +1,57 @@
+---
+title: "Tutorial Week X"
+author: "student's name"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE, include = TRUE,
+                      fig.align = "center",  out.width = "80%")
+```
+
+```{r}
+library(tidyverse)
+library(ggplot2)
+library(stringr)
+library(lubridate)
+```
+
+## Question 1
+### Question 1.1
+Answer question 1.1 here.
+
+```{r}
+olympics <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-07-27/olympics.csv')
+
+summer_games <- olympics %>% filter(tolower(season) == 'summer') %>%
+  group_by(year) %>% 
+  summarize(n_nations = n_distinct(noc),
+            n_events = n_distinct(event)) %>% ungroup
+str(summer_games)
+```
+
+### Question 1.2
+Answer question 1.2 here.
+
+```{r}
+summer_games %>% mutate(diff = year - lag(year)) %>% na.omit() %>%
+  summarize(shortest = min(diff), 
+            longest = max(diff)) 
+```
+### Question 1.3
+
+```{r}
+medals <- olympics %>% 
+  filter(tolower(season) == 'summer', year >= 1980) %>% 
+  select(noc, year, event, medal) %>%
+  unique() %>% group_by(noc, year) %>% 
+  summarize(gold = sum(tolower(medal) == 'gold', na.rm=TRUE),
+            silver = sum(tolower(medal) == 'silver', na.rm=TRUE),
+            bronze = sum(tolower(medal) == 'bronze', na.rm=TRUE), 
+            Total = gold + bronze + silver) %>% ungroup %>%
+  arrange(desc(gold), desc(silver), desc(bronze))
+
+medals
+```
+

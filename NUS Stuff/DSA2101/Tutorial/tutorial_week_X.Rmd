@@ -1,0 +1,45 @@
+---
+title: "Tutorial Week X"
+author: "student's name"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE, include = TRUE,
+                      fig.align = "center",  out.width = "80%")
+```
+
+```{r}
+library(tidyverse)
+library(ggplot2)
+library(stringr)
+library(lubridate)
+library(ggrepel)
+library(sf)
+```
+
+## Question 1
+### Question 1.1
+Answer question 1.1 here.
+
+```{r}
+seals$z <- with(seals, sqrt(delta_long^2 + delta_lat^2)); 
+ggplot(seals, aes(x=long, y=lat)) +
+  geom_tile(aes(fill=z)) +
+  scale_fill_gradient(trans = "log10", high = "indianred4", low = "white")
+
+```
+
+### Question 1.2
+Answer question 1.2 here.
+
+```{r}
+
+```
+
+## Question 2
+
+```{r}
+
+```

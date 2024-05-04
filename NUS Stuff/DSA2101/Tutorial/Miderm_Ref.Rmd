@@ -145,3 +145,11 @@ setdiff(df2, df1)
 symdiff(df1, df2)
 
 ```
+
+```{r}
+ggplot(data = mtcars, aes(x = mpg, y = wt, label = rownames(mtcars), color = am)) +
+  geom_point() +
+  geom_text_repel(size=3) + 
+  labs(title = "Miles/gallon against Weight", 
+       x = "Miles/(US) gallon", y = "Weight (1000 lbs)", color = "Transmission")
+```

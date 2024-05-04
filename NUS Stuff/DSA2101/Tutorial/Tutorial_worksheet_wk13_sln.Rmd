@@ -1,0 +1,157 @@
+---
+title: "Tutorial Week 13 (Suggested Answers)"
+author: "Yuting Huang"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE, 
+                      include = TRUE,
+                      fig.align = "center",  out.width = "80%")
+library(tidyverse)
+library(readxl)
+```
+
+
+# Question 1 HDB resale transactions
+## Question 2.1
+
++ In 2024, Sixty-one flats changed hands for at least $1 million in March, higher than the 50 such transactions in February. This statement is **TRUE**.
+
++ HDB resale prices rose by 3.8 per cent between September 2023 and March 2024, higher than the 2.3 per cent increase in the preceding six months from March to September 2023. This statement is **FALSE**.
+
+    It is unclear in the article whether the resale prices mentioned are for the mean, median, or any other weighted average. Here we checked the changes in price for the mean and median separately.
+
+```{r mysize=TRUE, size='\\scriptsize', message = FALSE, warning = FALSE}
+# Read in the data
+hdb_df = read.csv("../data/ResaleflatpricesbasedonregistrationdatefromJan2017onwards.csv")
+
+# 1
+hdb_df %>%
+  filter(month %in% c("2024-02", "2024-03")) %>%
+  filter(resale_price >= 1000000) %>% 
+  count(month)
+
+# 2
+# Unclear about the measures used in this statement.
+# Let's check mean and median resale prices separately.
+hdb_df %>%
+  filter(month %in% c("2024-03", "2023-09", "2023-03")) %>%
+  group_by(month) %>%
+  summarize(mean = mean(resale_price),
+            median = median(resale_price)) %>%
+  mutate(pct_mean = (mean - lag(mean))/lag(mean)*100,
+         pct_median = (median - lag(median))/lag(median)*100)
+```
+
+## Question 1.2
+
+Here are two possible plots. Generally, these types of questions are open-ended. You can be as creative as you like when exploring the data.
+
+```{r}
+# Number of transactions in 2020
+hdb_df2 = hdb_df %>%
+  select(month, town, resale_price) %>%
+  filter(month >= 2020 & month < 2021) %>%
+  mutate(month_name = month(ym(month), abbr = TRUE, label = TRUE)) %>%
+  group_by(month, month_name) %>%
+  summarize(num_transactions = n(), .groups = "drop")
+
+ggplot(data = hdb_df2, aes(x = month_name, y = num_transactions)) +
+  geom_point(size = 3) +
+  geom_line(group = 1) + # group is to override the group
+  geom_vline(aes(xintercept = "Apr"), linetype = "dashed") +
+  geom_vline(aes(xintercept = "Jun"), linetype = "dashed") +
+  labs(title = "HDB Resale Market during the Pandemic",
+       subtitle = "Number of transactions by month in 2020", x = "", y = "") +
+  theme_minimal()
+
+# Number of transactions in 2020, compared to 2019
+hdb_df3 = hdb_df %>%
+  select(month, town, resale_price) %>%
+  filter(month >= 2019 & month < 2021) %>%
+  mutate(month_name = month(ym(month), abbr = TRUE, label = TRUE)) %>%
+  group_by(month, month_name) %>%
+  summarize(num_transactions = n(), .groups = "drop") %>%
+  separate(month, into = c("year", "month"), convert = TRUE) %>%
+  spread(key = year, value = num_transactions)
+
+ggplot(data = hdb_df3) +
+  geom_segment(aes(x = month_name, xend = month_name, y = `2019`, yend = `2020`), color = "grey") +
+  geom_point(aes(x = month_name, y = `2019`), size = 5, color = "grey") +
+  geom_point(aes(x = month_name, y = `2020`), size = 5, color = "indianred4") +
+  labs(x = "", y = "Number of transactions",
+       title = "HDB Resale Market during the Pandemic",
+       subtitle = "Number of transactions by month in 2020 (red) vs. 2019 (grey)") +
+  theme_minimal()
+```
+
+# Question 2 HDI
+## Question 2.1
+
+```{r}
+hdi <- read_excel("../data/UN_HDI_2021.xlsx", range = "A5:C196", na = "..")
+hdi_tidy <- hdi %>%
+  gather(`1990`:`2021`, key = "year", value = "hdi", convert = TRUE) 
+
+qn2_1 <- hdi_tidy %>%
+  filter(year == 2021) %>%
+  mutate(rank = min_rank(desc(hdi))) %>%
+  filter(rank <= 3 | rank >= 189)
+
+qn2_1
+```
+
+## Question 2.2
+
+Here are two possible plots.
+
+```{r}
+# Read in the regions data
+regions <- read.csv("../data/UN_regions.csv") %>%
+   rename(region = Region.Name)
+
+hdi_region <- hdi_tidy %>%
+  left_join(regions, by = c("Country" = "country")) %>%
+  rename(country = Country) %>%
+  mutate(region = reorder(region, hdi, FUN = median))
+ 
+# Plot 1
+# HDI scores across continents
+ggplot(data = hdi_region, aes(x = year, y = hdi, group = country, color = region)) +
+  geom_line(alpha = 0.5, size = 2, show.legend = FALSE) +
+  labs(x = "", y = "HDI scores", 
+       title = "HDI in 1990 vs 2021") +
+  facet_wrap(~ region, ncol = 5) +
+  theme_minimal() +
+  scale_x_continuous(limits=c(1990, 2021))
+
+# Plot 2
+## Median HDI scores across continents in 1990 and 2021
+hdi_median <- hdi_region %>%
+  group_by(region, year) %>%
+  summarize(med_hdi = median(hdi, na.rm = TRUE)) %>% ungroup() 
+
+ggplot(data = hdi_median, aes(x = year, y = med_hdi, color = region)) +
+  geom_point(size = 3, show.legend = FALSE) +
+  geom_line(linewidth = 1, show.legend = FALSE) +
+  geom_text(data = hdi_median %>% filter(year == 2021),
+            aes(label = region), 
+            show.legend = FALSE, hjust = "left", nudge_x = 0.8, size = 3) +
+  labs(x = "", y = "Median HDI scores", color = "",
+       title = "Median HDI in 1990 vs 2021") +
+  theme_minimal() +
+  xlim(1990, 2025) + ylim(0.2, 1)
+```
+
+
+
+
+
+
+
+
+
+
+

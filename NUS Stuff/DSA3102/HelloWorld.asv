@@ -1,0 +1,9 @@
+syms x y z
+f(x, y) = 100*(y-x^2)^2 + (1-x)^2
+grad_f = gradient(f, [x,y])
+H_f = hessian(f, [x,y])
+
+f(x, y, z) = x*y*z
+gradient(f, [x,y,z])
+hessian(f, [x,y,z])
+hessian(f, [x,y,z])(1, 1)

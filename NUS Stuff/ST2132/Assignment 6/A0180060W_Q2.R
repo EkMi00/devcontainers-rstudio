@@ -2,11 +2,8 @@ free = 10
 pchisq(18.31/2, df=free, lower.tail=FALSE)  
 pchisq(18.31/4, df=free, lower.tail=FALSE) 
 
-
-# library(OptSig)
-
-# Power.Chisq(ncp = 2, df = free, alpha = 0.05)
-#                 # 0.1207775
-
-# Power.Chisq(ncp = 4, df = free, alpha = 0.05)
-#                 # 0.2148945
+pchisq(18.31, df=free, lower.tail=FALSE) 
+c = 5.62393
+n = 54
+round(1-pnorm(c/(25/sqrt(n))), 2)
+round(1-pnorm((c-10)/(25/sqrt(n))), 2)

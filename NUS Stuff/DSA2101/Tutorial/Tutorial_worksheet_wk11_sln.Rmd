@@ -1,0 +1,124 @@
+---
+title: "Tutorial Week 11 (Suggested Answers)"
+author: "Yuting Huang"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE, 
+                      include = TRUE,
+                      fig.align = "center",  out.width = "80%")
+library(tidyverse)
+```
+
+# Question 1
+
+```{r}
+url <- "https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/"
+date <- "2021/2021-07-27/"
+olympics <- readr::read_csv(paste0(url, date, "olympics.csv"))
+regions <- readr::read_csv(paste0(url, date, "regions.csv"))
+```
+
+## Question 1.1
+
+```{r}
+# Preparing the data
+summer_games <- olympics %>%
+  filter(season == "Summer") %>%
+  group_by(year) %>%
+  summarize(n_nations = n_distinct(noc),
+            n_events = n_distinct(event), .groups = "drop")
+
+# A plot on Number of nations and events over time
+ggplot(data = summer_games) +
+  geom_line(aes(x = year, y = n_events), color = "indianred4", linewidth = 1.5) +
+  geom_line(aes(x = year, y = n_nations), color = "gray22", linewidth = 1.5) +
+  labs(title = "Number of Events and Nations in Summer Olympics", x = "", y = "") +
+  annotate("text", x = 2010, y = c(180, 280), 
+           label = c("Nations", "Events"), color = c("gray22", "indianred4")) +
+  theme_minimal()
+```
+
+## Question 1.2
+
+```{r}
+# Five countries that won the most golds in 2016
+summer_top_5 <- olympics %>%
+  filter(season == "Summer", year == 2016) %>%
+  select(noc, year, event, medal) %>% 
+  distinct() %>%
+  group_by(noc) %>%
+  summarize(n_gold = sum(medal == "Gold", na.rm = TRUE), .groups = "drop") %>%
+  arrange(desc(n_gold)) %>%
+  head(5) %>% pull(noc)
+```
+
+```{r}
+summer_top_5
+```
+
+## Question 1.3
+
+```{r}
+# Prepare data for gold medals received in each year since 2000
+df2000 <- olympics %>% 
+  filter(season == "Summer", year >= 2000) %>%
+  select(noc, year, event, medal) %>% 
+  distinct() %>%
+  group_by(noc, year) %>%
+  summarize(n_gold = sum(medal == "Gold", na.rm = TRUE), .groups = "drop") 
+
+# Data for the five selected countries
+golds_top_5 = df2000 %>% filter(noc %in% summer_top_5)
+
+# Prepare the labels to use in the text geom
+df_labels <- golds_top_5 %>% filter(year == 2016) %>%
+    left_join(regions, by = c("noc" = "NOC"))
+  
+# Golds received across years
+ggplot(golds_top_5, aes(x = year, y = n_gold)) +
+  geom_point(aes(color = noc), size = 5, show.legend = FALSE) +
+  geom_line(aes(color = noc), show.legend = FALSE) +
+  geom_text(data = df_labels, aes(label = region),
+            hjust = "left", nudge_x = 0.5, size = 3.5) +
+  labs(x = "", y = "Number of golds received", color = "Region",
+       title = "Gold medals received for selected countries, by year") +
+  scale_x_continuous(breaks = seq(2000, 2016, 4), limits = c(2000, 2017.5)) +
+  theme_minimal()
+```
+
+## Question 1.4
+
+```{r}
+# Compute the rankings in golds received in each year
+ranks_top_5 <- df2000 %>%
+  group_by(year) %>%
+  mutate(rank = min_rank(desc(n_gold))) %>%
+  filter(noc %in% summer_top_5)  
+```
+
+## Question 1.5
+
+```{r}
+# Prepare the labels to use in the text geom
+df_labels <- ranks_top_5 %>% filter(year == 2016) %>%
+  left_join(regions, by = c("noc" = "NOC")) 
+
+# Rankings in golds received across years
+ggplot(data = ranks_top_5, aes(x = year, y = rank)) +
+  geom_point(aes(color = noc), size = 4, show.legend = FALSE) +
+  geom_line(aes(color = noc), show.legend = FALSE) +
+  geom_text(data = df_labels, aes(label = region),
+            hjust = "left", nudge_x = 0.5, size = 3.5) +
+  labs(x = "", y = "",
+       title = "Rankings of golds received, by year",
+       subtitle = "for countries that won the most golds in 2016",
+       caption = "Note: dplyr::min_rank() was used to compute country rankings") +
+  scale_y_continuous(trans = "reverse", breaks = seq(1, 10, 1)) +
+  scale_x_continuous(breaks = seq(2000, 2016, 4), limits = c(2000, 2018)) +
+  theme_minimal()
+```
+
+

@@ -1,0 +1,116 @@
+---
+title: "Tutorial Week X"
+author: "student's name"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE, include = TRUE,
+                      fig.align = "center",  out.width = "80%")
+```
+
+```{r}
+library(tidyverse)
+library(ggplot2)
+library(stringr)
+library(readxl)
+library(lubridate)
+```
+
+## Question 1
+### Question 1.1
+Answer question 1.1 here.
+
+```{r}
+qn1_1 <- read_excel("../data/t1-9.xls", 
+                           sheet = "T7(Total)", range = "B6:V511", na = "-") %>% 
+  filter(Subzone == "Total", `Planning Area` != "Total") %>%
+  mutate_at(vars(Total:`85 & Over`), as.numeric) %>%
+  select(-Subzone)
+
+str(qn1_1)
+```
+
+### Question 1.2
+Answer question 1.2 here.
+
+```{r}
+qn1_2 <- qn1_1 %>% slice_max(order_by=Total, n = 4) %>% .$`Planning Area`
+qn1_2
+```
+
+### Question 1.3
+```{r}
+qn1_3 <- qn1_1 %>% pivot_longer(cols = `0 - 4`:`85 & Over`, 
+                       names_to = 'age_group', values_to='population') %>%
+  mutate(pop_prop = population/Total,
+         age_group = reorder(as.factor(age_group),
+                             as.numeric(str_sub(age_group, 1, 2))))
+
+
+ggplot(data = qn1_3 %>% filter(`Planning Area` %in% qn1_2),
+       aes(x = age_group, y = pop_prop)) + 
+  geom_col() + 
+  facet_wrap(~ `Planning Area`) +
+  labs(title = "Planning areas with the largest total resident populations in 2015",
+       x = "", y = "Proportion",
+       caption = "Source: Singapore Department of Statistics") +
+  theme_bw() +
+  theme(axis.ticks.x = element_blank(),
+        axis.text.x = element_text(angle = 90, hjust = 1))
+```
+### Question 1.4
+```{r}
+df_male <- read_excel("../data/t1-9.xls", sheet = "T7(Males)", range = "B6:V8") %>%
+  filter(Subzone == "Total") %>%
+  mutate(Gender = "Male") %>%
+  select(-(`Planning Area`:Total)) %>%
+  pivot_longer(`0 - 4`:`85 & Over`, names_to = "age_group", values_to = "population")
+
+df_female <- read_excel("../data/t1-9.xls", sheet = "T7(Females)", range = "B6:V8") %>%
+ filter(Subzone == "Total") %>%
+  mutate(Gender = "Female") %>%
+  select(-(`Planning Area`:Total)) %>%
+  pivot_longer(`0 - 4`:`85 & Over`, names_to = "age_group", values_to = "population")
+
+df_total <- rbind(df_female, df_male) %>%
+  mutate(age_group = reorder(as.factor(age_group), as.numeric(str_sub(age_group, 1, 2))))
+
+```
+### Question 1.5
+```{r}
+ggplot(data = df_total) +
+  geom_col(aes(x = age_group, y = population/1000, fill = Gender), 
+           position = "dodge") +
+  labs(x = "", y = "Population (in thousands)",
+       title = "Population Age Structure of Singapore (2015)",
+       caption = "Source: Singapore Department of Statistics") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90))
+
+```
+### Question 1.5
+
+```{r}
+library(sf) 
+# read in data
+sg_map <- readRDS("../data/sg_masterplan2019.rds")
+
+df_map <- qn1_1 %>%
+  rename(area = "Planning Area", total = Total) %>%
+  select(area, total) %>%
+  mutate(area = toupper(area)) %>%
+  left_join(sg_map, by = c("area" = "town"))
+
+ggplot(data = df_map) +
+  geom_sf(aes(geometry = geometry, fill = total/1e+5), color = "grey50") +
+  scale_fill_continuous(name = "Population (thousands)",
+                        low = "lightblue", high = "steelblue", na.value = "white") +
+  labs(title = "Resident Population by Planning Area in 2015",
+       caption = "Source: Singapore Department of Statistics") +
+  theme_void() +
+  theme(axis.ticks = element_blank(),
+        axis.text = element_blank(),
+        legend.position = "bottom")
+```

@@ -1,0 +1,81 @@
+---
+title: "Tutorial Week 10 (Suggested Answers)"
+author: "Yuting Huang"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE, 
+                      include = TRUE,
+                      fig.align = "center",  out.width = "80%")
+library(tidyverse)
+```
+
+# Question 1
+## Question 1.1
+
+```{r}
+# Reading in data
+olympics <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-07-27/olympics.csv')
+```
+
+```{r}
+summer_games <- olympics %>%
+  filter(season == "Summer") %>%
+  group_by(year) %>%
+  summarize(n_nations = n_distinct(noc),
+            n_events = n_distinct(event), .groups = "drop") 
+str(summer_games)
+```
+
+## Question 1.2
+
+```{r}
+summer_games %>% select(year) %>%
+  unique() %>%
+  mutate(yrs_since = year - lag(year)) %>%
+  filter(!is.na(yrs_since)) %>%
+  summarize(shortest_gap = min(yrs_since), 
+            longest_gap = max(yrs_since))
+```
+
+**Answers to Question 1.2:**
+
++ The shortest gap between summer Olympics is **2 years**.
+    
++ The longest gap between summer Olympics is **12 years**.
+   
+## Question 1.3
+
+```{r}
+medals <- olympics %>%
+  filter(season == "Summer", year >= 1980) %>%
+  select(noc, year, event, medal) %>% unique() %>%
+  group_by(noc, year) %>%
+  rename(Country = noc, Year = year) %>%
+  summarize(Gold = sum(medal == "Gold", na.rm = TRUE),
+            Silver = sum(medal == "Silver", na.rm = TRUE),
+            Bronze = sum(medal == "Bronze", na.rm = TRUE),
+            Total = Gold + Silver + Bronze, .groups = "drop") %>%
+  arrange(desc(Gold), desc(Silver), desc(Bronze))
+
+# Print table in a nice format
+knitr::kable(head(medals, 10))
+```
+
+**Note:** In the code above, I use `knitr::kable()` to make the table more visually appealing in the knitted HTML. You can find more options about it here: https://bookdown.org/yihui/rmarkdown-cookbook/tables.html.
+
+
+## Question 2
+
+**No `R` code is required for this question.**
+
+1. The graph tries to compare the market share of various streaming services in 2020 and 2021. The insight it tries to display is how each service's share has grown or shrunk. However, the side-by-side setup for each comparison can make it difficult to read. There are also gaps between each service, making it difficult to compare the gains/losses across different companies.
+
+2. This graph shows 6 data points: Total trips, expenditure, and TV viewership during major holidays in China and the US. It might be more informative to consider per-capita statistics, allowing for comparisons that account for population size. 
+
+3. This graph shows the trend in cereal consumption from the 1970s to 2021. It reveals an unusual pattern after 2020 -- consumption on cereals experienced a significant surge. 
+
+4. This graph represents the amount of time Americans spend with others, based on their age. When we are young, we spend a lot of time with friends and family. As we enter our 20s, time with friends and family starts to drop quickly. We begin to spend more time with partners, coworkers, and children. This continues throughout our 30s, 40s, and 50s. There is a significant drop in time spent with coworkers for those aged 60 and above. This time is partly displaced by more time with partners. 
+

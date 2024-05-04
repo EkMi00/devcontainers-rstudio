@@ -1,0 +1,233 @@
+---
+title: "Week 13 Graphs makeover"
+author: "Yuting Huang"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE, 
+                      include = TRUE,
+                      fig.align = "center",  out.width = "80%")
+library(tidyverse)
+library(readxl)
+library(lubridate)
+library(stringr)
+
+# Additional packages
+library(ggthemes); library(scales)
+```
+
+
+# Graphs makeover
+In Week 10 tutorial, we examined some plots in the wild. Now we will try to re-create and improve some of them.
+
+During the process, we will ask ourselves the following questions:
+
++ How to read in the data?
+
++ Is the data frame tidy? If not, how should we tidy it up?
+
++ What are the `geom`s used in the plot? How should we prepare and map the data to these `geom`s?
+
++ Are there better ways to present and visualize the data?
+
+## Streaming services in the US
+
+```{r}
+# Reading in data
+df1 <- read.csv("../data/wk13_streamingUS.csv")
+head(df1)
+```
+
+```{r}
+# Preparing the data
+
+
+
+
+
+
+
+
+
+
+# Plotting
+
+
+
+
+
+
+
+
+
+```
+
+```{r}
+# Improving the visualization
+# Preparing the data
+
+
+
+
+
+
+
+
+
+
+# Plotting
+
+
+
+
+
+
+
+
+
+```
+
+## Chinese New Year and Thanksgiving
+
+```{r}
+# Reading in data
+df2 <- read_excel("../data/wk13_cny_thanksgiving.xlsx")
+head(df2)
+```
+
+```{r}
+# Improving the visualization
+# Preparing the data
+
+
+
+
+
+
+
+
+
+
+# Plotting
+
+
+
+
+
+
+
+
+
+```
+
+## Cereal consumption
+
+```{r}
+df3 <- read_excel("../data/wk13_personal_consumption_expenditures.xlsx") %>%
+  filter(`Sub-Category` == "Cereals")
+head(df3)
+```
+
+```{r}
+# Preparing the data
+
+
+
+
+
+
+
+
+
+
+# Plotting
+
+
+
+
+
+
+
+
+
+```
+
+```{r}
+# Improving the visualization
+# Preparing the data
+
+
+
+
+
+
+
+
+
+
+# Plotting
+
+
+
+
+
+
+
+
+
+```
+
+## Time spent in life
+
+```{r}
+df4 <- read.csv("../data/wk13_time-spent-with-relationships-by-age-us.csv") %>%
+     rename(age = Year,
+         "Alone" = 4,
+         "With friends" = 5,
+         "With children" = 6,
+         "With parents" = 7,
+         "With partner" = 8,
+         "With coworkers" = 9)
+head(df4)
+```
+
+```{r}
+# Preparing the data
+
+
+
+
+
+
+
+
+
+
+# Plotting
+
+
+
+
+
+
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
