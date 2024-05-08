@@ -1,0 +1,98 @@
+---
+title: "Final Exam"
+author: "Ethan Keck"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE, include = TRUE,
+                      fig.align = "center",  out.width = "80%")
+```
+
+```{r}
+library(jsonlite)
+library(tidyverse)
+library(ggplot2)
+library(stringr)
+library(lubridate)
+library(sf)
+
+library(gridExtra)
+library(ggrepel)
+library(ggthemes)
+
+library(viridis)
+```
+
+## Question 21
+
+```{r}
+df2 <- read.csv("../data/final_regions.csv")
+
+df1 <- read.csv("../data/final_prices.csv") %>%  
+  pivot_longer(`X2015`:`X2023`, names_to = "year", values_to = "index", ) %>%
+  mutate(year = as.numeric(str_sub(year, start=2, end=5))) %>% 
+  left_join(df2,  by = c("COUNTRY_CODE" = "iso3")) %>% 
+  select(-UNIT) %>% rename(code=COUNTRY_CODE, indicator=INDICATOR, region=Region.Name) %>%
+  filter(indicator != "Data extracted on 27 Mar 2024 06:23 UTC (GMT) from OECD.Stat.")
+
+# length(unique(df1$country))
+# df1 %>% na.omit() %>% summarize
+```
+
+### Question 21.1
+
+```{r}
+df21 <- df1 %>% filter(tolower(region) == 'oceania', year >= 2015 & year <= 2022,
+               indicator %in% c('Real house price indices', 'Rent prices'))
+
+plot21 <- df21 %>% 
+  ggplot(aes(x=year, y = index, fill = indicator)) +
+  geom_col(position = 'dodge') + 
+  labs(x = "Year", y = "Index",
+       title = "Rental Indices in Oceania Region, 2015 to 2022", 
+       fill = '') +
+  theme_minimal() +
+  theme(legend.position = 'top')
+
+plot21
+```
+### Question 21.2
+```{r}
+df22 <- df1 %>% filter(country %in% c('China', 'Japan', 
+                                         'Korea (Republic of)', 'Korea (Democratic People\'s Rep. of)'),
+                          indicator == 'Real house price indices') %>% 
+  mutate(growth = round((index - lag(index))/lag(index)*100, 2),
+         country = case_when(country == "Korea (Republic of)" ~ "Korea",
+                             .default=country), 
+         country = factor(country, levels = c('Korea', 'Japan', 'China'))) %>% filter(year != 2015)
+
+plot22 <- df22 %>% ggplot(aes(x=year, y=country, fill=growth, label=growth)) +
+  geom_tile() + 
+  labs(x = '', y = '', 
+       title = 'Year on Year growth % on housing prices', legend='Growth', 
+       fill = 'Growth Rates') +
+  geom_text() + 
+  theme_minimal() + 
+  scale_fill_gradient(low = 'steelblue4', high ='lightblue1') + 
+  theme(legend.position = "top")
+
+plot22
+```
+
+### Question 21.3
+```{r}
+df23 <- df1 %>% filter(!is.na(country), indicator %in% c('Price to rent ratio', 	
+'Price to income ratio')) %>% group_by(region, year, indicator) %>% 
+  summarize(med_ratio = median(index, na.rm=TRUE)) 
+
+plot23 <- df23 %>% ggplot(aes(x=year, y=med_ratio, fill = indicator)) +
+  geom_col(position='dodge') + 
+  facet_wrap(~ region ) +
+  labs(x = '', y = '', 
+       title = 'Changes in median Price to Income/Rent Ratio over time') +
+  theme(legend.position = "top")
+
+plot23
+```
